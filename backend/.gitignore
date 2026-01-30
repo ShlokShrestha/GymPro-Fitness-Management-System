@@ -27,3 +27,4 @@ package-lock.json
 .env
 
 public/
+/src/generated/prisma
