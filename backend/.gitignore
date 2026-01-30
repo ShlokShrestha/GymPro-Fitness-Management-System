@@ -1,0 +1,29 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+
+# TypeScript
+*.tsbuildinfo
+
+# Logs
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Optional: IDE/Editor specific files
+.idea/
+.vscode/
+.sublime-workspace
+.sublime-project
+
+# npm package lock files (optional)
+package-lock.json
+
+#.env file
+.env
+
+public/
