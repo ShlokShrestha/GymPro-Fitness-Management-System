@@ -103,7 +103,7 @@ export const forgotPassword = catchAsync(
       generateResetToken();
     sendEmail({
       email: user.email,
-      subject: `Rojgar Sansar Password Recovery`,
+      subject: `GymPro Fitness Password Recovery`,
       resetToken,
     });
     await prisma.user.update({
