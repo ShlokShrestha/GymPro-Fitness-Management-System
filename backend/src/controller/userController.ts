@@ -18,7 +18,7 @@ export const userProfile = catchAsync(
         email: true,
         role: true,
         profile: true,
-        phone: true,
+        phoneNumber: true,
       },
     });
     if (!userProfile) {
@@ -69,7 +69,7 @@ export const updateProfileImage = catchAsync(
 export const updateProfile = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
     const userId = req.user?.id;
-    const { email, fullName, bio, skills, phone } = req.body;
+    const { email, fullName, phoneNumber } = req.body;
     const user = await prisma.user.findUnique({
       where: { id: userId },
       include: { profile: true },
@@ -83,7 +83,7 @@ export const updateProfile = catchAsync(
       data: {
         email,
         fullName,
-        phone,
+        phoneNumber,
       },
     });
     res.status(200).json({

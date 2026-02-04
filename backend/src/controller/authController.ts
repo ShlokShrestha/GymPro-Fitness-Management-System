@@ -10,7 +10,7 @@ import prisma from "../../prisma/prismaClient";
 
 export const signUp = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { fullName, email, password, role } = req.body;
+    const { fullName, email, password, role, phoneNumber } = req.body;
     const file = req.file ?? null;
 
     if (!fullName || !email || !password) {
@@ -28,6 +28,7 @@ export const signUp = catchAsync(
       email,
       password: hashPassword,
       role,
+      phoneNumber,
     };
     let imageUrl: { url: string; fileId: string } | undefined;
     if (file) {
@@ -59,7 +60,7 @@ export const signUp = catchAsync(
       status: "success",
       message: "Sign up successful",
     });
-  }
+  },
 );
 
 export const login = catchAsync(
@@ -85,7 +86,7 @@ export const login = catchAsync(
     res
       .status(200)
       .json({ token: token, message: "Successfully login", data: userData });
-  }
+  },
 );
 
 export const forgotPassword = catchAsync(
@@ -116,7 +117,7 @@ export const forgotPassword = catchAsync(
       status: "success",
       message: `Email sent to ${user.email} successfully`,
     });
-  }
+  },
 );
 
 export const resetPassword = catchAsync(
@@ -150,5 +151,5 @@ export const resetPassword = catchAsync(
       status: "success",
       message: `Successfully reset password`,
     });
-  }
+  },
 );
