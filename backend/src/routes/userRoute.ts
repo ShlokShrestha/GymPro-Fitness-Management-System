@@ -11,22 +11,48 @@ import {
 } from "../controller/userController";
 import { isAuthorizedRoles } from "../middleware/authMiddleware";
 import { uploadImageMiddleWare } from "../middleware/uploadMiddleware";
+import { createRateLimiter } from "../utils/rateLimiter";
 const userRoutes = express.Router();
 
+const apiLimiter = createRateLimiter({
+  windowMs: 1 * 60 * 1000, // 1 min
+  limit: 60,
+});
 //user route
-userRoutes.get("/profile", userProfile);
-userRoutes.put("/updateProfile", updateProfile);
+userRoutes.get("/profile", apiLimiter, userProfile);
+userRoutes.put("/updateProfile", apiLimiter, updateProfile);
 userRoutes.put(
   "/updateProfileImage",
+  apiLimiter,
   uploadImageMiddleWare.single("profileImage"),
   updateProfileImage,
 );
-userRoutes.put("/updatePassword", updatePassword);
+userRoutes.put("/updatePassword", apiLimiter, updatePassword);
 
 //admin route
-userRoutes.get("/getAllUser", isAuthorizedRoles("admin"), getAllUser);
-userRoutes.get("/getSingleUser/:id", isAuthorizedRoles("admin"), getSingleUser);
-userRoutes.put("/updateUser", isAuthorizedRoles("admin"), updateUser);
-userRoutes.delete("/deleteUser", isAuthorizedRoles("admin"), deleteUser);
+userRoutes.get(
+  "/getAllUser",
+  apiLimiter,
+  isAuthorizedRoles("admin"),
+  getAllUser,
+);
+userRoutes.get(
+  "/getSingleUser/:id",
+  apiLimiter,
+  isAuthorizedRoles("admin"),
+  getSingleUser,
+);
+userRoutes.put(
+  "/updateUser",
+  apiLimiter,
+  isAuthorizedRoles("admin"),
+  updateUser,
+);
+userRoutes.delete(
+  "/deleteUser",
+  apiLimiter,
+  isAuthorizedRoles("admin"),
+  deleteUser,
+);
 
 export default userRoutes;

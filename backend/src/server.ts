@@ -5,12 +5,19 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/authRoute";
 import { isAuthenitcatedUser } from "./middleware/authMiddleware";
 import cors from "cors";
+import { createRateLimiter } from "./utils/rateLimiter";
 dotenv.config();
 
 const server = express();
 server.use(express.json());
 server.use(cors());
 server.use("/uploads", express.static("public/uploads"));
+
+const globalLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000,
+  limit: 1000,
+});
+server.use(globalLimiter);
 
 server.use("/api/v1/auth", authRoutes);
 server.use("/api/v1/user", isAuthenitcatedUser, userRoutes);
