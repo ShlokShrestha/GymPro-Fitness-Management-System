@@ -1,4 +1,7 @@
 import express from "express";
+import { isAuthorizedRoles } from "../middleware/authMiddleware";
+import { uploadImageMiddleWare } from "../middleware/uploadMiddleware";
+import { createRateLimiter } from "../utils/rateLimiter";
 import {
   deleteUser,
   getAllUser,
@@ -8,10 +11,8 @@ import {
   updateProfileImage,
   updateUser,
   userProfile,
-} from "../controller/userController";
-import { isAuthorizedRoles } from "../middleware/authMiddleware";
-import { uploadImageMiddleWare } from "../middleware/uploadMiddleware";
-import { createRateLimiter } from "../utils/rateLimiter";
+} from "../controller/user.controller";
+
 const userRoutes = express.Router();
 
 const apiLimiter = createRateLimiter({

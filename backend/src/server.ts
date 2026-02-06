@@ -4,7 +4,7 @@ import globalErrorHandler from "./controller/error.Controller";
 import { isAuthenitcatedUser } from "./middleware/authMiddleware";
 import cors from "cors";
 import { createRateLimiter } from "./utils/rateLimiter";
-import userRoutes from "./routes/userRoute";
+import userRoutes from "./routes/user.route";
 import authRoutes from "./routes/auth.Route";
 
 dotenv.config();
