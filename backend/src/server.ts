@@ -1,11 +1,12 @@
 import express from "express";
-import globalErrorHandler from "./controller/errorController";
-import userRoutes from "./routes/userRoute";
 import dotenv from "dotenv";
-import authRoutes from "./routes/authRoute";
+import globalErrorHandler from "./controller/error.Controller";
 import { isAuthenitcatedUser } from "./middleware/authMiddleware";
 import cors from "cors";
 import { createRateLimiter } from "./utils/rateLimiter";
+import userRoutes from "./routes/userRoute";
+import authRoutes from "./routes/auth.Route";
+
 dotenv.config();
 
 const server = express();

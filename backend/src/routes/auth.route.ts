@@ -4,7 +4,7 @@ import {
   login,
   resetPassword,
   signUp,
-} from "../controller/authController";
+} from "../controller/auth.Controller";
 import { uploadImageMiddleWare } from "../middleware/uploadMiddleware";
 import { createRateLimiter } from "../utils/rateLimiter";
 const authRoutes = express.Router();
