@@ -10,18 +10,20 @@ export interface PaginationResult<T> {
 export const paginationFilterHelper = async <T>(
   model: any,
   filterOptions: any = {},
+  includeOptions: any = {},
   skip: number,
-  take: number
+  take: number,
 ): Promise<PaginationResult<T>> => {
   const totalRecords = await model.count({ where: filterOptions });
   const hasNextPage = skip * take + take < totalRecords;
   const hasPrevPage = skip > 0;
   const data = await model.findMany({
     where: filterOptions,
+    include: includeOptions,
     skip: skip * take,
     take: take,
   });
- 
+
   return {
     data,
     pagination: {
