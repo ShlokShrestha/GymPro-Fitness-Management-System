@@ -19,6 +19,13 @@ enum Role {
   admin
 }
 
+enum MembershipStatus {
+  PENDING
+  ACTIVE
+  CANCELLED
+  EXPIRED
+}
+
 model user {
   id                  String            @id @default(uuid())
   fullName            String
@@ -55,13 +62,14 @@ model plan {
 }
 
 model membership {
-  id             String          @id @default(uuid())
-  user           user            @relation(fields: [userId], references: [id])
+  id             String           @id @default(uuid())
+  user           user             @relation(fields: [userId], references: [id])
   userId         String
-  plan           plan            @relation(fields: [planId], references: [id])
+  plan           plan             @relation(fields: [planId], references: [id])
   planId         String
-  startDate      DateTime        @default(now())
-  endDate        DateTime
+  status         MembershipStatus
+  startDate      DateTime?         @default(now())
+  endDate        DateTime?
   payments       payment[]
   gymAttendances gymAttendance[]
 }
