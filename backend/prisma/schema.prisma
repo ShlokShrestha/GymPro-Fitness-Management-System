@@ -56,22 +56,39 @@ model plan {
   id             String       @id @default(uuid())
   name           String
   description    String?
-  price          Float
+  discount       Float
   durationInDays Int
   memberships    membership[]
 }
 
+model program {
+  id          String              @id @default(uuid())
+  name        String
+  price       Float
+  memberships membershipProgram[]
+}
+
+model membershipProgram {
+  id           String     @id @default(uuid())
+  membershipId String
+  programId    String
+  price        Float // contribution of this program
+  membership   membership @relation(fields: [membershipId], references: [id])
+  program      program    @relation(fields: [programId], references: [id])
+}
+
 model membership {
-  id             String           @id @default(uuid())
-  user           user             @relation(fields: [userId], references: [id])
-  userId         String
-  plan           plan             @relation(fields: [planId], references: [id])
-  planId         String
-  status         MembershipStatus
-  startDate      DateTime?         @default(now())
-  endDate        DateTime?
-  payments       payment[]
-  gymAttendances gymAttendance[]
+  id                 String              @id @default(uuid())
+  user               user                @relation(fields: [userId], references: [id])
+  userId             String
+  plan               plan                @relation(fields: [planId], references: [id])
+  planId             String
+  status             MembershipStatus
+  startDate          DateTime?           @default(now())
+  endDate            DateTime?
+  payments           payment[]
+  gymAttendances     gymAttendance[]
+  membershipPrograms membershipProgram[]
 }
 
 model payment {

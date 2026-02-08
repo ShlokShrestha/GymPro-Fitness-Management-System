@@ -31,13 +31,13 @@ export const getPlanById = catchAsync(
 // Create a new plan
 export const createPlan = catchAsync(
   async (req, res: Response, next: NextFunction) => {
-    const { name, description, price, durationInDays } = req.body;
-    if (!name || !price || !durationInDays) {
+    const { name, description, discount, durationInDays } = req.body;
+    if (!name || !discount || !durationInDays) {
       return next(new ErrorHandler("Missing required fields", 400));
     }
 
     const plan = await prisma.plan.create({
-      data: { name, description, price, durationInDays },
+      data: { name, description, discount, durationInDays },
     });
 
     res.status(201).json({
@@ -51,7 +51,7 @@ export const createPlan = catchAsync(
 export const updatePlan = catchAsync(
   async (req, res: Response, next: NextFunction) => {
     const id: string = req.params["id"] as string;
-    const { name, description, price, durationInDays } = req.body;
+    const { name, description, discount, durationInDays } = req.body;
 
     const existingPlan = await prisma.plan.findUnique({ where: { id } });
     if (!existingPlan) {
@@ -60,7 +60,7 @@ export const updatePlan = catchAsync(
 
     const updatedPlan = await prisma.plan.update({
       where: { id },
-      data: { name, description, price, durationInDays },
+      data: { name, description, discount, durationInDays },
     });
 
     res.status(200).json({
