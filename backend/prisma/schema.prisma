@@ -72,7 +72,7 @@ model membershipProgram {
   id           String     @id @default(uuid())
   membershipId String
   programId    String
-  price        Float // contribution of this program
+  price        Float
   membership   membership @relation(fields: [membershipId], references: [id])
   program      program    @relation(fields: [programId], references: [id])
 }
@@ -83,6 +83,7 @@ model membership {
   userId             String
   plan               plan                @relation(fields: [planId], references: [id])
   planId             String
+  price              Float
   status             MembershipStatus
   startDate          DateTime?           @default(now())
   endDate            DateTime?
