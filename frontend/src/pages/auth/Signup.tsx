@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router";
 import API from "../../api/axios";
+import "./auth.css";
 
 export default function Signup() {
   const [form, setForm] = useState({
@@ -22,34 +23,42 @@ export default function Signup() {
   };
 
   return (
-    <div className="auth-container">
-      <form className="auth-card" onSubmit={handleSubmit}>
-        <h2>Signup</h2>
+    <div className="auth-card">
+      <h2>Create Account</h2>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Full Name"
+          value={form.name}
           required
           onChange={(e) => setForm({ ...form, name: e.target.value })}
         />
         <input
           type="email"
           placeholder="Email"
+          value={form.email}
           required
           onChange={(e) => setForm({ ...form, email: e.target.value })}
         />
         <input
           type="password"
           placeholder="Password"
+          value={form.password}
           required
           onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
-        <select onChange={(e) => setForm({ ...form, role: e.target.value })}>
+        <select
+          value={form.role}
+          onChange={(e) => setForm({ ...form, role: e.target.value })}
+        >
           <option value="user">User</option>
           <option value="admin">Admin</option>
         </select>
         <button type="submit">Create Account</button>
-        <Link to="/">Back to Login</Link>
       </form>
+      <div className="auth-links">
+        <Link to="/">Back to Login</Link>
+      </div>
     </div>
   );
 }

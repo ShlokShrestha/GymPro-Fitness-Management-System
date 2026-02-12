@@ -7,11 +7,17 @@ import ForgotPassword from "../pages/auth/ForgotPassword";
 import ResetPassword from "../pages/auth/ResetPassword";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import UserDashboard from "../pages/user/UserDashboard";
+import ProtectedRoute from "./ProtectedRoute";
+import PublicRoute from "./publicRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <AuthLayout />,
+    element: (
+      <PublicRoute>
+        <AuthLayout />
+      </PublicRoute>
+    ),
     children: [
       { index: true, element: <Login /> },
       { path: "signup", element: <Signup /> },
@@ -21,10 +27,28 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout />
+      </ProtectedRoute>
+    ),
     children: [
-      { path: "admin", element: <AdminDashboard /> },
-      { path: "user", element: <UserDashboard /> },
+      {
+        path: "admin",
+        element: (
+          <ProtectedRoute role="admin">
+            <AdminDashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "user",
+        element: (
+          <ProtectedRoute role="user">
+            <UserDashboard />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
 ]);

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router";
 import API from "../../api/axios";
+import "./auth.css";
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -19,27 +20,31 @@ export default function Login() {
   };
 
   return (
-    <div className="auth-container">
-      <form className="auth-card" onSubmit={handleSubmit}>
-        <h2>Login</h2>
+    <div className="auth-card">
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
         <input
           type="email"
           placeholder="Email"
+          value={form.email}
           required
           onChange={(e) => setForm({ ...form, email: e.target.value })}
         />
         <input
           type="password"
           placeholder="Password"
+          value={form.password}
           required
           onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
         <button type="submit">Login</button>
+      </form>
+      <div className="auth-links">
         <Link to="/forgot-password">Forgot Password?</Link>
         <p>
-          Don't have account? <Link to="/signup">Signup</Link>
+          Don't have an account? <Link to="/signup">Signup</Link>
         </p>
-      </form>
+      </div>
     </div>
   );
 }

@@ -1,0 +1,69 @@
+.auth-container {
+  display: flex;
+  height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+.auth-left {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  color: white;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.7)),
+    url("../assets/background-gym.jpg") center/cover no-repeat;
+  border-radius: 0 0 0 0;
+}
+.auth-left h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: bold;
+  background: linear-gradient(90deg, #ffd700, #ff6a00); /* Yellow → Orange */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.auth-left p {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+.auth-left img {
+  max-width: 80%;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.auth-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f6f8;
+  padding: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .auth-container {
+    flex-direction: column;
+  }
+
+  .auth-left,
+  .auth-right {
+    flex: none;
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .auth-left img {
+    max-width: 100%;
+  }
+}
