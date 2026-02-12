@@ -10,8 +10,14 @@ import { createRateLimiter } from "../utils/rateLimiter";
 const authRoutes = express.Router();
 
 const authLimiter = createRateLimiter({
-  windowMs: 15 * 60 * 1000, // 15 min
+  windowMs: 15 * 60 * 1000,
   limit: 5,
+  message: "Too many attempts. Try again later.",
+});
+
+const sensitiveLimiter = createRateLimiter({
+  windowMs: 30 * 60 * 1000,
+  limit: 3,
   message: "Too many attempts. Try again later.",
 });
 
@@ -22,7 +28,7 @@ authRoutes.post(
   signUp,
 );
 authRoutes.post("/login", authLimiter, login);
-authRoutes.post("/forgotPassword", authLimiter, forgotPassword);
-authRoutes.post("/resetPassword", authLimiter, resetPassword);
+authRoutes.post("/forgotPassword", sensitiveLimiter, forgotPassword);
+authRoutes.post("/resetPassword", sensitiveLimiter, resetPassword);
 
 export default authRoutes;
