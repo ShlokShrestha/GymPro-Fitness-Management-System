@@ -10,9 +10,10 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import UserDashboard from "../pages/user/UserDashboard";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./publicRoute";
-import Membership from "../pages/admin/Membership";
-import Programs from "../pages/admin/Programs";
-import Clients from "../pages/admin/Clients";
+import Membership from "../pages/admin/Membership/Membership";
+import Programs from "../pages/admin/Programs/Programs";
+import Clients from "../pages/admin/Clients/Clients";
+import Plans from "../pages/admin/Plans/Plans";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,7 @@ const router = createBrowserRouter([
         element: <AdminDashboard />,
       },
       { path: "membership", element: <Membership /> },
+      { path: "plans", element: <Plans /> },
       { path: "programs", element: <Programs /> },
       { path: "clients", element: <Clients /> },
     ],

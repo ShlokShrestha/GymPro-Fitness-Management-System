@@ -4,21 +4,3 @@
   box-sizing: border-box;
   font-family: Arial, sans-serif;
 }
-
-.dashboard {
-  display: flex;
-  height: 100vh;
-}
-
-.sidebar {
-  width: 220px;
-  background: #1e3c72;
-  color: white;
-  padding: 20px;
-}
-
-.main-content {
-  flex: 1;
-  padding: 20px;
-  background: #f4f6f9;
-}
