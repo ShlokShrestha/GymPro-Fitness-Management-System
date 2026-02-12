@@ -1,14 +1,17 @@
+import { jwtDecode } from "jwt-decode";
 import { Navigate } from "react-router";
 
-export default function ProtectedRoute({ children, role }: any) {
+export default function ProtectedRoute({ children }: any) {
   const token = localStorage.getItem("token");
-  const userRole = localStorage.getItem("role");
 
   if (!token) {
     return <Navigate to="/" replace />;
   }
-  if (role && userRole !== role) {
-    return <Navigate to="/dashboard/user" replace />;
+  if (token) {
+    const decoded: any = jwtDecode(token);
+    if (decoded.role !== "admin") {
+      return <Navigate to="/dashboard" replace />;
+    }
   }
   return children;
 }

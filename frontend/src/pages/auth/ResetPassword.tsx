@@ -1,16 +1,19 @@
 import { useState } from "react";
 import API from "../../api/axios";
 import "./auth.css";
+import { useNavigate } from "react-router";
 
 export default function ResetPassword() {
-  const [otp, setOtp] = useState("");
+  const navigate = useNavigate();
+  const [token, setToken] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      await API.post("/auth/resetPassword", { otp, password });
+      await API.post("/auth/resetPassword", { token, password });
       alert("Password Reset Successful");
+      navigate("/");
     } catch (err) {
       alert("Failed to reset password");
     }
@@ -22,9 +25,9 @@ export default function ResetPassword() {
       <form onSubmit={handleSubmit}>
         <input
           placeholder="OTP"
-          value={otp}
+          value={token}
           required
-          onChange={(e) => setOtp(e.target.value)}
+          onChange={(e) => setToken(e.target.value)}
         />
         <input
           type="password"

@@ -12,8 +12,12 @@ export default function Login() {
     try {
       const res = await API.post("/auth/login", form);
       localStorage.setItem("token", res.data.token);
-      const role = res.data.role;
-      role === "admin" ? navigate("/admin") : navigate("/user");
+      const role = res?.data?.data?.role;
+      if (role === "admin") {
+        navigate("/dashboard/admin");
+      } else {
+        navigate("/dashboard");
+      }
     } catch (err) {
       alert("Invalid Credentials");
     }
