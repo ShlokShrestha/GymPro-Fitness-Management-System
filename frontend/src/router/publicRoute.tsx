@@ -7,9 +7,9 @@ export default function PublicRoute({ children }: any) {
   if (token) {
     const decoded: any = jwtDecode(token);
     return decoded.role === "admin" ? (
-      <Navigate to="/dashboard/admin" replace />
+      <Navigate to="/admin" replace />
     ) : (
-      <Navigate to="/dashboard" replace />
+      <Navigate to="/user" replace />
     );
   }
 

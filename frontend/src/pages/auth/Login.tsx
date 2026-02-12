@@ -14,9 +14,9 @@ export default function Login() {
       localStorage.setItem("token", res.data.token);
       const role = res?.data?.data?.role;
       if (role === "admin") {
-        navigate("/dashboard/admin");
+        navigate("/admin");
       } else {
-        navigate("/dashboard");
+        navigate("/user");
       }
     } catch (err) {
       alert("Invalid Credentials");

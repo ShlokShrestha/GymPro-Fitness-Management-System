@@ -10,7 +10,6 @@ export default function UserDashboard() {
 
   return (
     <div className="dashboard">
-      <aside className="sidebar">User Panel</aside>
       <main className="main-content">
         <h2>Welcome {profile.name}</h2>
         <div className="card">Plan: {profile.plan}</div>

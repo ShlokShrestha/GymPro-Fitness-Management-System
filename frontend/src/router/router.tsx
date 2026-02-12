@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import AuthLayout from "../layouts/AuthLayout";
-import DashboardLayout from "../layouts/DashboardLayout";
+import AdminLayout from "../layouts/AdminLayout";
+import UserLayout from "../layouts/UserLayout";
 import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
 import ForgotPassword from "../pages/auth/ForgotPassword";
@@ -9,10 +10,13 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import UserDashboard from "../pages/user/UserDashboard";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./publicRoute";
+import Membership from "../pages/admin/Membership";
+import Programs from "../pages/admin/Programs";
+import Clients from "../pages/admin/Clients";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/login",
     element: (
       <PublicRoute>
         <AuthLayout />
@@ -26,28 +30,33 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/dashboard",
+    path: "/admin",
     element: (
-      <ProtectedRoute>
-        <DashboardLayout />
+      <ProtectedRoute requiredRole="admin">
+        <AdminLayout />
       </ProtectedRoute>
     ),
     children: [
       {
-        path: "admin",
-        element: (
-          <ProtectedRoute role="admin">
-            <AdminDashboard />
-          </ProtectedRoute>
-        ),
+        index: true,
+        element: <AdminDashboard />,
       },
+      { path: "membership", element: <Membership /> },
+      { path: "programs", element: <Programs /> },
+      { path: "clients", element: <Clients /> },
+    ],
+  },
+  {
+    path: "/user",
+    element: (
+      <ProtectedRoute requiredRole="user">
+        <UserLayout />
+      </ProtectedRoute>
+    ),
+    children: [
       {
         index: true,
-        element: (
-          <ProtectedRoute role="user">
-            <UserDashboard />
-          </ProtectedRoute>
-        ),
+        element: <UserDashboard />,
       },
     ],
   },
