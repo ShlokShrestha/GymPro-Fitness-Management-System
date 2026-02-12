@@ -11,13 +11,13 @@ const authRoutes = express.Router();
 
 const authLimiter = createRateLimiter({
   windowMs: 15 * 60 * 1000,
-  limit: 5,
+  limit: 20,
   message: "Too many attempts. Try again later.",
 });
 
 const sensitiveLimiter = createRateLimiter({
   windowMs: 30 * 60 * 1000,
-  limit: 3,
+  limit: 10,
   message: "Too many attempts. Try again later.",
 });
 

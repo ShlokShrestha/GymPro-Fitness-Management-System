@@ -1,11 +1,17 @@
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 
-export const generateToken = (payload: string | null): string | null => {
+type payloadProps = {
+  id: string;
+  email: string;
+  role: string;
+};
+
+export const generateToken = (payload: payloadProps): string | null => {
   const secret = process.env.JWT_SECRET_KEY;
   if (!secret) {
     throw new Error(
-      "JWT_SECRET_KEY is not defined in the environment variables."
+      "JWT_SECRET_KEY is not defined in the environment variables.",
     );
   }
   if (!payload) {
@@ -14,11 +20,13 @@ export const generateToken = (payload: string | null): string | null => {
   }
   try {
     const token = jwt.sign(
-      { id: payload },
-      secret,
-      { expiresIn: process.env.JWT_EXPIRES_IN || "1h" } // Default to 1 hour if not specified
+      { id: payload.id, role: payload.role },
+      secret as jwt.Secret,
+      {
+        expiresIn:
+          (process.env.JWT_EXPIRES_IN as jwt.SignOptions["expiresIn"]) || "1h",
+      },
     );
-
     return token;
   } catch (error) {
     console.error("Error generating token:", error);

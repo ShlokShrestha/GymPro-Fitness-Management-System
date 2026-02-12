@@ -82,7 +82,7 @@ export const login = catchAsync(
       email: result.email,
       role: result.role,
     };
-    const token = generateToken(result.id);
+    const token = generateToken(userData);
     res
       .status(200)
       .json({ token: token, message: "Successfully login", data: userData });
