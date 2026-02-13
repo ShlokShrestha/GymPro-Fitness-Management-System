@@ -1,6 +1,7 @@
 .dashboard {
   display: flex;
-  height: 100vh;
+  height: 95vh;
+  background: #f4f6f9;
 }
 
 .sidebar {
@@ -13,5 +14,4 @@
 .main-content {
   flex: 1;
   padding: 20px;
-  background: #f4f6f9;
 }

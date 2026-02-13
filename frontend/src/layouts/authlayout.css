@@ -2,6 +2,7 @@
   display: flex;
   height: 100vh;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8;
 }
 .auth-left {
   flex: 1;
@@ -46,7 +47,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f4f6f8;
   padding: 2rem;
 }
 
