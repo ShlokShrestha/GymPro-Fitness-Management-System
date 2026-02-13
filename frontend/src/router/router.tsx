@@ -17,14 +17,13 @@ import Plans from "../pages/admin/Plans/Plans";
 
 const router = createBrowserRouter([
   {
-    path: "/login",
     element: (
       <PublicRoute>
         <AuthLayout />
       </PublicRoute>
     ),
     children: [
-      { index: true, element: <Login /> },
+      { path: "login", element: <Login /> },
       { path: "signup", element: <Signup /> },
       { path: "forgot-password", element: <ForgotPassword /> },
       { path: "reset-password", element: <ResetPassword /> },
