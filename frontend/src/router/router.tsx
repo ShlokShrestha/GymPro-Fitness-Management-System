@@ -14,6 +14,8 @@ import Membership from "../pages/admin/Membership/Membership";
 import Programs from "../pages/admin/Programs/Programs";
 import Clients from "../pages/admin/Clients/Clients";
 import Plans from "../pages/admin/Plans/Plans";
+import AddPlan from "../pages/admin/Plans/AddPlan";
+import EditPlan from "../pages/admin/Plans/EditPlan";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +49,8 @@ const router = createBrowserRouter([
       },
       { path: "membership", element: <Membership /> },
       { path: "plans", element: <Plans /> },
+      { path: "plans/add", element: <AddPlan /> },
+      { path: "plans/edit/:id", element: <EditPlan /> },
       { path: "programs", element: <Programs /> },
       { path: "clients", element: <Clients /> },
     ],

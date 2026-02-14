@@ -48,11 +48,14 @@
   gap: 15px;
 }
 
-.form-container input {
+.form-container input,
+textarea {
   padding: 10px;
   border-radius: 6px;
   border: 1px solid #ddd;
   font-size: 14px;
+  outline: none;
+  resize: none;
 }
 
 .form-container input:focus {
