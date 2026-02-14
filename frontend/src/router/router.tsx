@@ -16,6 +16,8 @@ import Clients from "../pages/admin/Clients/Clients";
 import Plans from "../pages/admin/Plans/Plans";
 import AddPlan from "../pages/admin/Plans/AddPlan";
 import EditPlan from "../pages/admin/Plans/EditPlan";
+import AddProgram from "../pages/admin/Programs/AddProgram";
+import EditProgram from "../pages/admin/Programs/EditProgram";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +54,8 @@ const router = createBrowserRouter([
       { path: "plans/add", element: <AddPlan /> },
       { path: "plans/edit/:id", element: <EditPlan /> },
       { path: "programs", element: <Programs /> },
+      { path: "programs/add", element: <AddProgram /> },
+      { path: "programs/edit/:id", element: <EditProgram /> },
       { path: "clients", element: <Clients /> },
     ],
   },
