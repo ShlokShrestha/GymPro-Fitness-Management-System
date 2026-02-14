@@ -54,7 +54,7 @@ const Plans = () => {
         columns={columns}
         data={plans}
         loading={loading}
-        onEdit={(id) => navigate(`/admin/plans/edit/${id}`)}
+        onEdit={(data) => navigate(`/admin/plans/edit/${data.id}`)}
         onDelete={handleDelete}
       />
     </div>
