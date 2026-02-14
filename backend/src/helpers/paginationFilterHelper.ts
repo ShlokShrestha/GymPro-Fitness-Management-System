@@ -11,23 +11,23 @@ export const paginationFilterHelper = async <T>(
   model: any,
   filterOptions: any = {},
   includeOptions: any = {},
-  skip: number,
-  take: number,
+  page: number,
+  limit: number,
 ): Promise<PaginationResult<T>> => {
   const totalRecords = await model.count({ where: filterOptions });
-  const hasNextPage = skip * take + take < totalRecords;
-  const hasPrevPage = skip > 0;
+  const hasNextPage = page * limit + limit < totalRecords;
+  const hasPrevPage = page > 0;
   const data = await model.findMany({
     where: filterOptions,
     include: includeOptions,
-    skip: skip * take,
-    take: take,
+    skip: page * limit,
+    take: limit,
   });
 
   return {
     data,
     pagination: {
-      currentPage: Math.floor(skip / take) + 1,
+      currentPage: Math.floor(page / limit) + 1,
       hasPrevPage,
       hasNextPage,
       totalRecords,

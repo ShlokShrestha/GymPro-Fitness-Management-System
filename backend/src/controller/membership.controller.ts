@@ -244,10 +244,10 @@ export const getMembershipById = catchAsync(
 
 //Get all memberships (Admin)
 export const getAllMemberships = catchAsync(async (req, res: Response) => {
-  const { skip, take, search } = req.query;
+  const { page, limit, search } = req.query;
 
-  const skipInt = skip ? parseInt(skip as string, 10) : 0;
-  const takeInt = take ? parseInt(take as string, 10) : 10;
+  const pageInt = page ? parseInt(page as string, 10) : 0;
+  const limitInt = limit ? parseInt(limit as string, 10) : 10;
 
   const filterOptions = search
     ? {
@@ -268,8 +268,8 @@ export const getAllMemberships = catchAsync(async (req, res: Response) => {
     prisma.membership,
     filterOptions,
     includeOptions,
-    skipInt,
-    takeInt,
+    pageInt,
+    limitInt,
   );
   res.status(200).json({
     status: "success",
