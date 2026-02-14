@@ -9,6 +9,7 @@ export default function Signup() {
     email: "",
     password: "",
     role: "user",
+    phoneNumber: "",
   });
   const navigate = useNavigate();
 
@@ -47,17 +48,17 @@ export default function Signup() {
           required
           onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
-        <select
-          value={form.role}
-          onChange={(e) => setForm({ ...form, role: e.target.value })}
-        >
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-        </select>
+        <input
+          type="text"
+          placeholder="Phone Number"
+          value={form.phoneNumber}
+          required
+          onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })}
+        />
         <button type="submit">Create Account</button>
       </form>
       <div className="auth-links">
-        <Link to="/">Back to Login</Link>
+        <Link to="/login">Back to Login</Link>
       </div>
     </div>
   );
