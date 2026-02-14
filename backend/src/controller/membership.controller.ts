@@ -268,6 +268,7 @@ export const getAllMemberships = catchAsync(async (req, res: Response) => {
     prisma.membership,
     filterOptions,
     includeOptions,
+    {},
     pageInt,
     limitInt,
   );
