@@ -1,16 +1,33 @@
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import "./sidebar.css";
 import { adminRoutes, userRoutes } from "../../config/sidebarRoutes";
 
 const Sidebar = ({ role }: any) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const routes = role === "admin" ? adminRoutes : userRoutes;
 
   const logout = () => {
     localStorage.removeItem("token");
     navigate("/login");
   };
 
-  const routes = role === "admin" ? adminRoutes : userRoutes;
+  const getActiveRoute = () => {
+    let activeRoute = null;
+    let maxLength = 0;
+    routes.forEach((route) => {
+      if (
+        location.pathname.startsWith(route.path) &&
+        route.path.length > maxLength
+      ) {
+        activeRoute = route.path;
+        maxLength = route.path.length;
+      }
+    });
+    return activeRoute;
+  };
+
+  const activePath = getActiveRoute();
 
   return (
     <aside className="sidebar">
@@ -20,15 +37,18 @@ const Sidebar = ({ role }: any) => {
 
       <ul className="sidebar-menu">
         {routes.map((route, index) => (
-          <li key={index} onClick={() => navigate(route.path)}>
+          <li
+            key={index}
+            onClick={() => navigate(route.path)}
+            className={activePath === route.path ? "active" : ""}
+          >
             {route.icon} {route.label}
           </li>
         ))}
-
-        <li className="logout" onClick={logout}>
-          🚪 Logout
-        </li>
       </ul>
+      <div className="logout" onClick={logout}>
+        🚪 Logout
+      </div>
     </aside>
   );
 };

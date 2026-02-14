@@ -25,13 +25,18 @@
 }
 
 .sidebar-menu li {
-  padding: 0.9rem 0rem;
+  padding: 0.9rem 0.5rem;
   margin-bottom: 0.5rem;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.95rem;
   white-space: nowrap;
+}
+.sidebar-menu li.active {
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
 }
 
 .sidebar-menu li:hover {
@@ -40,10 +45,17 @@
 }
 
 .logout {
+  padding: 0.9rem 0rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  white-space: nowrap;
   margin-top: auto;
-  background-color: rgba(255, 0, 0, 0.2);
+  cursor: pointer;
 }
 
 .logout:hover {
-  background-color: rgba(255, 0, 0, 0.4);
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px);
 }

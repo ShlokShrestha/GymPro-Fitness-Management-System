@@ -4,13 +4,6 @@
   background: #f4f6f9;
 }
 
-.sidebar {
-  width: 220px;
-  background: #1e3c72;
-  color: white;
-  padding: 20px;
-}
-
 .main-content {
   flex: 1;
   padding: 20px;
