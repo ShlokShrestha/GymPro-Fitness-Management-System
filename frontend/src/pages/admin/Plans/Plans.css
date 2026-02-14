@@ -1,0 +1,75 @@
+/* Header */
+.plans-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.plans-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* Add Button */
+.add-btn {
+  background-color: #4e73df;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.add-btn:hover {
+  background-color: #2e59d9;
+}
+
+/* Form (Add & Edit Pages) */
+.form-container {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  max-width: 500px;
+  margin: 30px auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.form-container h2 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-container input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.form-container input:focus {
+  outline: none;
+  border-color: #4e73df;
+}
+
+.form-container button {
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  background-color: #4e73df;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.form-container button:hover {
+  background-color: #2e59d9;
+}
