@@ -5,6 +5,7 @@ import ErrorHandler from "../utils/errorHandler";
 import { deleteImageKit, uploadImageKit } from "../utils/imageKitUpload";
 import bycrpt from "bcrypt";
 import prisma from "../../prisma/prismaClient";
+import { paginationFilterHelper } from "../helpers/paginationFilterHelper";
 
 //user profile
 export const userProfile = catchAsync(
@@ -122,16 +123,40 @@ export const updatePassword = catchAsync(
 //Get all user detail - Admin
 export const getAllUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const getAllUser = await prisma.user.findMany({
-      select: {
-        id: true,
-        fullName: true,
-        email: true,
-        role: true,
-        profile: true,
-      },
+    const { page, limit, search } = req.query;
+
+    const pageInt = page ? parseInt(page as string, 10) : 0;
+    const limitInt = limit ? parseInt(limit as string, 10) : 10;
+
+    const filterOptions = {
+      role: { not: "admin" },
+      ...(search && {
+        title: {
+          contains: search as string,
+          mode: "insensitive",
+        },
+      }),
+    };
+    const selectOptions = {
+      id: true,
+      fullName: true,
+      email: true,
+      role: true,
+      profile: true,
+    };
+    const { data, pagination } = await paginationFilterHelper(
+      prisma.user,
+      filterOptions,
+      {},
+      selectOptions,
+      pageInt,
+      limitInt,
+    );
+    res.status(200).json({
+      status: "success",
+      data: data,
+      pagination: pagination,
     });
-    res.status(200).json({ status: "success", data: getAllUser });
   },
 );
 //Get single user - Admin
@@ -156,7 +181,7 @@ export const getSingleUser = catchAsync(
 //Update user - Admin
 export const updateUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const userId = req.body.id;
+    const { id: userId }: any = req.params;
     const { email, fullName, role } = req.body;
     const updateProfileData: any = {
       email,
@@ -182,7 +207,7 @@ export const updateUser = catchAsync(
 //admin delete user  - Admin
 export const deleteUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.body;
+    const { id }: any = req.params;
     const user = await prisma.user.findUnique({ where: { id: id } });
     if (!user) {
       return next(new ErrorHandler("User doesnot exist with id", 400));

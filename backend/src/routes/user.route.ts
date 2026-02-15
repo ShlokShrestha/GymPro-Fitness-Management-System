@@ -31,29 +31,9 @@ userRoutes.put(
 userRoutes.put("/updatePassword", apiLimiter, updatePassword);
 
 //admin route
-userRoutes.get(
-  "/getAllUser",
-  apiLimiter,
-  isAuthorizedRoles("admin"),
-  getAllUser,
-);
-userRoutes.get(
-  "/getSingleUser/:id",
-  apiLimiter,
-  isAuthorizedRoles("admin"),
-  getSingleUser,
-);
-userRoutes.put(
-  "/updateUser",
-  apiLimiter,
-  isAuthorizedRoles("admin"),
-  updateUser,
-);
-userRoutes.delete(
-  "/deleteUser",
-  apiLimiter,
-  isAuthorizedRoles("admin"),
-  deleteUser,
-);
+userRoutes.get("/", apiLimiter, isAuthorizedRoles("admin"), getAllUser);
+userRoutes.get("/:id", apiLimiter, isAuthorizedRoles("admin"), getSingleUser);
+userRoutes.put("/:id", apiLimiter, isAuthorizedRoles("admin"), updateUser);
+userRoutes.delete("/:id", apiLimiter, isAuthorizedRoles("admin"), deleteUser);
 
 export default userRoutes;
