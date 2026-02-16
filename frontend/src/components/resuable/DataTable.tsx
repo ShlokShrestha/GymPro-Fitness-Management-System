@@ -20,12 +20,9 @@ interface TableProps {
   columns: Column[];
   data: any[];
   loading?: boolean;
-
-  // Optional features
   pagination?: PaginationConfig;
   searchable?: boolean;
   onSearch?: (value: string) => void;
-
   onEdit?: (row: any) => void;
   onDelete?: (id: string) => void;
 }
@@ -76,6 +73,8 @@ const DataTable: React.FC<TableProps> = ({
               <option value={5}>5</option>
               <option value={10}>10</option>
               <option value={25}>25</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
             </select>
           )}
         </div>
