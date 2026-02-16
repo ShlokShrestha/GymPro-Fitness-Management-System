@@ -131,7 +131,7 @@ export const getAllUser = catchAsync(
     const filterOptions = {
       role: { not: "admin" },
       ...(search && {
-        title: {
+        fullName: {
           contains: search as string,
           mode: "insensitive",
         },

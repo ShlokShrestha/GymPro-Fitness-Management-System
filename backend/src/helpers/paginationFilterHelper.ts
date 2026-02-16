@@ -24,9 +24,6 @@ export const paginationFilterHelper = async <T>(
     skip: page * limit,
     take: limit,
   };
-
-  console.log(filterOptions, includeOptions, selectOptions);
-
   if (Object.keys(selectOptions).length) {
     query.select = selectOptions;
   } else if (Object.keys(includeOptions).length) {
