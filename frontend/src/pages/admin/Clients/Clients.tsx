@@ -52,6 +52,7 @@ const Clients = () => {
   const columns = [
     { header: "Full Name", accessor: "fullName", sortable: true },
     { header: "Email", accessor: "email", sortable: true },
+    { header: "Phone Number", accessor: "phoneNumber", sortable: true },
   ];
 
   return (
