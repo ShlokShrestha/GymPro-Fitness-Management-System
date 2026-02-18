@@ -145,7 +145,7 @@ const DataTable: React.FC<TableProps> = ({
       {pagination && (
         <div className="pagination">
           <button
-            disabled={pagination.currentPage === 1}
+            disabled={pagination.currentPage === 0}
             onClick={() => pagination.onPageChange(pagination.currentPage - 1)}
           >
             Prev
