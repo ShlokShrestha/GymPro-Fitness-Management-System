@@ -142,6 +142,7 @@ export const getAllUser = catchAsync(
       fullName: true,
       email: true,
       role: true,
+      phoneNumber: true,
       profile: true,
     };
     const { data, pagination } = await paginationFilterHelper(
@@ -182,16 +183,16 @@ export const getSingleUser = catchAsync(
 export const updateUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id: userId }: any = req.params;
-    const { email, fullName, role } = req.body;
+    const { email, fullName, phoneNumber } = req.body;
     const updateProfileData: any = {
       email,
       fullName,
-      role,
+      phoneNumber,
     };
     const user: any = await prisma.user.findFirst({
-      where: { email: email },
+      where: { id: userId },
     });
-    if (user.id !== userId) {
+    if (!user) {
       return next(new ErrorHandler("User exist with this email", 400));
     }
     await prisma.user.update({
@@ -200,7 +201,7 @@ export const updateUser = catchAsync(
     });
     res.status(200).json({
       status: "success",
-      message: "Update profile succesful",
+      message: "Update user succesful",
     });
   },
 );
