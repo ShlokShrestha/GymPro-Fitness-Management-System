@@ -18,6 +18,7 @@ import AddPlan from "../pages/admin/Plans/AddPlan";
 import EditPlan from "../pages/admin/Plans/EditPlan";
 import AddProgram from "../pages/admin/Programs/AddProgram";
 import EditProgram from "../pages/admin/Programs/EditProgram";
+import EditClient from "../pages/admin/Clients/EditClient";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,7 @@ const router = createBrowserRouter([
       { path: "programs/add", element: <AddProgram /> },
       { path: "programs/edit/:id", element: <EditProgram /> },
       { path: "clients", element: <Clients /> },
+      { path: "clients/edit/:id", element: <EditClient /> },
     ],
   },
   {
