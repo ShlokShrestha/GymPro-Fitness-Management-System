@@ -59,12 +59,6 @@ const Clients = () => {
     <>
       <div className="header">
         <h2>Membership Clients</h2>
-        <button
-          className="add-btn"
-          onClick={() => navigate("/admin/clients/add")}
-        >
-          + Add Client
-        </button>
       </div>
       <DataTable
         columns={columns}
