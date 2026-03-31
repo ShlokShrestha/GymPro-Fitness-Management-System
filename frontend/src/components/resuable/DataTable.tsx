@@ -45,6 +45,9 @@ const DataTable: React.FC<TableProps> = ({
   };
 
   const showActions = onEdit || onDelete;
+  const getValue = (obj: any, path: string) => {
+    return path.split(".").reduce((acc, key) => acc?.[key], obj);
+  };
 
   return (
     <div className="table-wrapper">
@@ -114,7 +117,7 @@ const DataTable: React.FC<TableProps> = ({
             data?.map((row, index) => (
               <tr key={index}>
                 {columns.map((col, i) => (
-                  <td key={i}>{row[col.accessor]}</td>
+                  <td key={i}>{getValue(row, col.accessor)}</td>
                 ))}
 
                 {showActions && (
