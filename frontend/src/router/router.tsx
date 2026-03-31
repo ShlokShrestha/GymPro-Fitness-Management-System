@@ -21,6 +21,7 @@ import EditProgram from "../pages/admin/Programs/EditProgram";
 import EditClient from "../pages/admin/Clients/EditClient";
 import AddMembership from "../pages/admin/Membership/AddMembership";
 import UserMembership from "../pages/user/UserMembership/UserMembership";
+import UserAttendance from "../pages/user/UserAttendance/UserAttendance";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +78,7 @@ const router = createBrowserRouter([
         element: <UserDashboard />,
       },
       { path: "membership", element: <UserMembership /> },
+      { path: "attendance", element: <UserAttendance /> },
     ],
   },
 ]);

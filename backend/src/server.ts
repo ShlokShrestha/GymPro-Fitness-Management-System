@@ -9,6 +9,7 @@ import authRoutes from "./routes/auth.route";
 import planRoutes from "./routes/plan.route";
 import membershipRoute from "./routes/membership.route";
 import programRoutes from "./routes/program.route";
+import attendanceRoute from "./routes/attendance.route";
 
 dotenv.config();
 
@@ -28,6 +29,8 @@ server.use("/api/v1/user", isAuthenitcatedUser, userRoutes);
 server.use("/api/v1/plan", planRoutes);
 server.use("/api/v1/program", programRoutes);
 server.use("/api/v1/membership", isAuthenitcatedUser, membershipRoute);
+server.use("/api/v1/attendance", isAuthenitcatedUser, attendanceRoute);
+
 server.use(globalErrorHandler);
 
 server.listen(process.env.SERVER_PORT, () => {

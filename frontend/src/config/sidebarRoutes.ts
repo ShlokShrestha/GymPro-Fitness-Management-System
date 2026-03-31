@@ -33,9 +33,9 @@ export const userRoutes = [
     path: "/user",
   },
   {
-    label: "My Programs",
+    label: "Attendance",
     icon: "🏋️",
-    path: "/user/my-programs",
+    path: "/user/attendance",
   },
   {
     label: "My Membership",
