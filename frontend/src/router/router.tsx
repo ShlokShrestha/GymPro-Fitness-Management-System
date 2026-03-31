@@ -20,6 +20,7 @@ import AddProgram from "../pages/admin/Programs/AddProgram";
 import EditProgram from "../pages/admin/Programs/EditProgram";
 import EditClient from "../pages/admin/Clients/EditClient";
 import AddMembership from "../pages/admin/Membership/AddMembership";
+import UserMembership from "../pages/user/UserMembership/UserMembership";
 
 const router = createBrowserRouter([
   {
@@ -75,6 +76,7 @@ const router = createBrowserRouter([
         index: true,
         element: <UserDashboard />,
       },
+      { path: "membership", element: <UserMembership /> },
     ],
   },
 ]);

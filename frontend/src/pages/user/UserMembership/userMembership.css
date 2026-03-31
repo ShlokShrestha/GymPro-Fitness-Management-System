@@ -1,0 +1,138 @@
+.membership-container {
+  padding: 25px;
+  background: #f6f8fb;
+  font-family: Arial, sans-serif;
+}
+
+.card {
+  width: 100%;
+  max-width: 520px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px;
+  transition: 0.3s ease;
+  border: 1px solid #eef0f3;
+  margin-top: 10px;
+}
+
+.card h3 {
+  font-size: 22px;
+  margin-bottom: 6px;
+  color: #111827;
+}
+
+.card p {
+  margin: 6px 0;
+  color: #4b5563;
+  font-size: 14px;
+}
+
+/* STATUS BADGE */
+.badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 8px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.badge.pending {
+  background: #fff7ed;
+  color: #f59e0b;
+  border: 1px solid #fde68a;
+}
+
+.badge.active {
+  background: #ecfdf5;
+  color: #10b981;
+  border: 1px solid #a7f3d0;
+}
+
+.badge.expired {
+  background: #fef2f2;
+  color: #ef4444;
+  border: 1px solid #fecaca;
+}
+
+/* INFO SECTION */
+.info {
+  margin-top: 16px;
+  padding: 14px;
+  background: #f9fafb;
+  border-radius: 12px;
+  border: 1px solid #eef0f3;
+}
+
+.info p {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  padding: 6px 0;
+  color: #374151;
+}
+
+.info strong {
+  color: #111827;
+}
+
+/* PROGRAMS */
+.programs {
+  margin-top: 18px;
+}
+
+.programs h4 {
+  font-size: 15px;
+  margin-bottom: 10px;
+  color: #111827;
+}
+
+.program-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f3f4f6;
+  margin-bottom: 8px;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.program-item:hover {
+  background: #e5e7eb;
+}
+
+/* PAY BUTTON */
+.pay-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  color: white;
+  background: linear-gradient(135deg, #6366f1, #3b82f6);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.25);
+  transition: 0.3s ease;
+}
+
+.pay-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(59, 130, 246, 0.35);
+}
+
+/* PAID TEXT */
+.paid-text {
+  margin-top: 15px;
+  padding: 10px;
+  background: #ecfdf5;
+  color: #10b981;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 600;
+  border: 1px solid #a7f3d0;
+}
