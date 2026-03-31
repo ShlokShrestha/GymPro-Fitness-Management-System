@@ -27,57 +27,6 @@ export const getMyAttendance = catchAsync(
   },
 );
 
-// export const checkInAttendance = catchAsync(
-//   async (req: ExpressRequest, res: Response, next: NextFunction) => {
-//     const userId = req.user?.id;
-
-//     if (!userId) {
-//       return next(new ErrorHandler("Unauthorized", 401));
-//     }
-
-//     const activeSession = await prisma.gymAttendance.findFirst({
-//       where: {
-//         userId,
-//         checkOut: null,
-//       },
-//     });
-
-//     if (activeSession) {
-//       return next(new ErrorHandler("Already checked in", 400));
-//     }
-
-//     const membership = await prisma.membership.findFirst({
-//       where: {
-//         userId,
-//         status: "ACTIVE",
-//       },
-//     });
-
-//     if (!membership) {
-//       return next(new ErrorHandler("No active membership found", 400));
-//     }
-
-//     const attendance = await prisma.gymAttendance.create({
-//       data: {
-//         userId,
-//         membershipId: membership.id,
-//       },
-//       include: {
-//         membership: {
-//           include: {
-//             plan: true,
-//           },
-//         },
-//       },
-//     });
-
-//     res.status(201).json({
-//       status: "success",
-//       message: "Checked in successfully",
-//       data: attendance,
-//     });
-//   },
-// );
 export const checkInAttendance = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
     const userId = req.user?.id;
