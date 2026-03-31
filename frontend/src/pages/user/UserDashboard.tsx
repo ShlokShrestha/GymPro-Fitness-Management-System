@@ -11,9 +11,9 @@ export default function UserDashboard() {
   return (
     <div className="dashboard">
       <main className="main-content">
-        <h2>Welcome {profile.name}</h2>
-        <div className="card">Plan: {profile.plan}</div>
-        <div className="card">Expiry: {profile.expiry}</div>
+        <h2>Welcome {profile?.data?.fullName}</h2>
+        <div className="card">Plan: {profile?.data?.plan}</div>
+        <div className="card">Expiry: {profile?.data?.expiry}</div>
       </main>
     </div>
   );

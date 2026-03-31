@@ -17,11 +17,12 @@ export default function ProtectedRoute({
   }
   try {
     const decoded: any = jwtDecode(token);
-    if (requiredRole && decoded.role !== requiredRole) {
-      if (decoded.role === "admin") {
-        return <Navigate to="/admin" replace />;
-      } else {
-        return <Navigate to="/user" replace />;
+    const role = decoded.role?.toLowerCase();
+    if (requiredRole && role !== requiredRole) {
+      const redirectPath = role === "admin" ? "/admin" : "/user";
+
+      if (location.pathname !== redirectPath) {
+        return <Navigate to={redirectPath} replace />;
       }
     }
   } catch (error) {
