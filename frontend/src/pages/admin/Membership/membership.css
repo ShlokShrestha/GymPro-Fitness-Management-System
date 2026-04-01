@@ -65,11 +65,6 @@
   color: #333;
 }
 
-.program-list input[type="checkbox"] {
-  accent-color: #4a90e2;
-  cursor: pointer;
-}
-
 /* Button */
 .form-container button {
   margin-top: 10px;

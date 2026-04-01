@@ -9,26 +9,30 @@ const AddMembership = () => {
 
   const [form, setForm] = useState({
     userId: "",
+    fullName: "",
+    email: "",
+    phoneNumber: "",
     planId: "",
     programIds: [] as string[],
+    paymentMethod: "CASH",
   });
+
+  const [useExistingUser, setUseExistingUser] = useState(true);
 
   const [users, setUsers] = useState<any[]>([]);
   const [plans, setPlans] = useState<any[]>([]);
   const [programs, setPrograms] = useState<any[]>([]);
 
-  // fetch data
   useEffect(() => {
     const fetchData = async () => {
-      const [u, p, pr] = await Promise.all([
+      const [user, plan, program] = await Promise.all([
         API.get("/user/"),
         API.get("/plan/"),
         API.get("/program/"),
       ]);
-      console.log(u, p, pr);
-      setUsers(u.data.data);
-      setPlans(p.data.data);
-      setPrograms(pr.data.data);
+      setUsers(user.data.data);
+      setPlans(plan.data.data);
+      setPrograms(program.data.data);
     };
 
     fetchData();
@@ -36,8 +40,25 @@ const AddMembership = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    await API.post("/membership", form);
-    navigate("/admin/memberships");
+
+    const payload = useExistingUser
+      ? {
+          userId: form.userId,
+          planId: form.planId,
+          programIds: form.programIds,
+          paymentMethod: form.paymentMethod,
+        }
+      : {
+          fullName: form.fullName,
+          email: form.email,
+          phoneNumber: form.phoneNumber,
+          planId: form.planId,
+          programIds: form.programIds,
+          paymentMethod: form.paymentMethod,
+        };
+
+    await API.post("/membership/user-membership/", payload);
+    navigate("/admin/membership/");
   };
 
   const toggleProgram = (id: string) => {
@@ -57,12 +78,56 @@ const AddMembership = () => {
       <h2>Add Membership</h2>
 
       <form onSubmit={handleSubmit}>
-        <ComboBox
-          options={userOptions}
-          value={form.userId}
-          onChange={(val) => setForm({ ...form, userId: val })}
-          placeholder="Select User"
-        />
+        <div style={{ display: "flex", gap: "10px" }}>
+          <label>
+            <input
+              type="radio"
+              checked={useExistingUser}
+              onChange={() => setUseExistingUser(true)}
+              style={{ marginRight: "5px" }}
+            />
+            Existing User
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              checked={!useExistingUser}
+              onChange={() => setUseExistingUser(false)}
+              style={{ marginRight: "5px" }}
+            />
+            New User
+          </label>
+        </div>
+        {useExistingUser ? (
+          <ComboBox
+            options={userOptions}
+            value={form.userId}
+            onChange={(val) => setForm({ ...form, userId: val })}
+            placeholder="Select User"
+          />
+        ) : (
+          <>
+            <input
+              type="text"
+              placeholder="Full Name"
+              onChange={(e) => setForm({ ...form, fullName: e.target.value })}
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+            />
+            <input
+              type="phoneNumber"
+              placeholder="PhoneNumber"
+              onChange={(e) =>
+                setForm({ ...form, phoneNumber: e.target.value })
+              }
+            />
+          </>
+        )}
+
         {/* PLAN */}
         <select onChange={(e) => setForm({ ...form, planId: e.target.value })}>
           <option value="">Select Plan</option>
@@ -72,7 +137,6 @@ const AddMembership = () => {
             </option>
           ))}
         </select>
-        {/* PROGRAM MULTI SELECT */}
         <div className="program-list">
           <label className="title">Select Programs:</label>
           {programs.map((p) => (
@@ -83,13 +147,21 @@ const AddMembership = () => {
                 checked={form.programIds.includes(p.id)}
                 onChange={() => toggleProgram(p.id)}
               />
-
               <label htmlFor={`program-${p.id}`}>
                 {p.name} (${p.price})
               </label>
             </div>
           ))}
         </div>
+        <select
+          value={form.paymentMethod}
+          onChange={(e) => setForm({ ...form, paymentMethod: e.target.value })}
+        >
+          <option value="CASH">Cash</option>
+          <option value="CARD">Card</option>
+          <option value="KHALTI">Khalti</option>
+          <option value="ESEWA">eSewa</option>
+        </select>
         <button type="submit">Save</button>
       </form>
     </div>

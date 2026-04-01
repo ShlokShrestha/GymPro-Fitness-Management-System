@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import DataTable from "../../../components/resuable/DataTable";
 import API from "../../../api/axios";
-
+import "./membership.css"
 const Membership = () => {
   const navigate = useNavigate();
 
