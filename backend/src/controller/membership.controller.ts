@@ -5,6 +5,7 @@ import ErrorHandler from "../utils/errorHandler";
 import prisma from "../../prisma/prismaClient";
 import { paginationFilterHelper } from "../helpers/paginationFilterHelper";
 import bcrypt from "bcrypt";
+import { sendUserEmail } from "../utils/sendUserEmail";
 
 // Create Membership with Programs & Dynamic Pricing
 export const createMembership = catchAsync(
@@ -267,7 +268,7 @@ export const createUserMembershipWithPayment = catchAsync(
       const startDate = new Date();
       const endDate = new Date(startDate);
       endDate.setDate(startDate.getDate() + plan.durationInDays);
-      
+
       const membership = await tx.membership.create({
         data: {
           userId: user.id,
@@ -296,6 +297,23 @@ export const createUserMembershipWithPayment = catchAsync(
       return { user, membership, payment };
     });
 
+    await sendUserEmail({
+      email,
+      subject: "Your Account Has Been Created 🎉",
+      htmlContent: `
+        <h2>Welcome ${fullName} 🎉</h2>
+        <p>Your account has been created successfully.</p>
+
+        <div style="margin-top:15px; padding:15px; background:#f1f5f9; border-radius:8px;">
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Password:</strong> user123</p>
+        </div>
+
+        <p style="margin-top:20px;">
+          Please login and change your password immediately for security.
+        </p>
+      `,
+    });
     res.status(201).json({
       status: "success",
       data: result,
