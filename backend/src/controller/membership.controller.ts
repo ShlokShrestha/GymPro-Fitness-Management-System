@@ -4,6 +4,7 @@ import { catchAsync } from "../middleware/catchAsync";
 import ErrorHandler from "../utils/errorHandler";
 import prisma from "../../prisma/prismaClient";
 import { paginationFilterHelper } from "../helpers/paginationFilterHelper";
+import bcrypt from "bcrypt";
 
 // Create Membership with Programs & Dynamic Pricing
 export const createMembership = catchAsync(
@@ -211,6 +212,93 @@ export const activateMembership = catchAsync(
       status: "success",
       message: "Membership activated successfully",
       data: updatedMembership,
+    });
+  },
+);
+
+export const createUserMembershipWithPayment = catchAsync(
+  async (req: ExpressRequest, res: Response, next: NextFunction) => {
+    const { fullName, email, phoneNumber, planId, programIds, paymentMethod } =
+      req.body;
+
+    if (!fullName || !email || !planId || !Array.isArray(programIds)) {
+      return next(new ErrorHandler("Missing required fields", 400));
+    }
+    const result = await prisma.$transaction(async (tx) => {
+      let user = await tx.user.findUnique({ where: { email } });
+
+      const hashPassword = await bcrypt.hash("user123", 10);
+      if (!user) {
+        user = await tx.user.create({
+          data: {
+            fullName,
+            email,
+            password: hashPassword,
+            phoneNumber,
+          },
+        });
+      }
+
+      const existingMembership = await tx.membership.findFirst({
+        where: { userId: user.id },
+      });
+
+      if (existingMembership) {
+        throw new ErrorHandler("Membership already exists", 409);
+      }
+
+      const plan = await tx.plan.findUnique({ where: { id: planId } });
+      if (!plan) throw new ErrorHandler("Plan not found", 404);
+
+      const programs = await tx.program.findMany({
+        where: { id: { in: programIds } },
+      });
+
+      if (!programs.length) {
+        throw new ErrorHandler("Programs not found", 404);
+      }
+
+      const sumMonthly = programs.reduce((sum, p) => sum + p.price, 0);
+      const totalBeforeDiscount = sumMonthly * plan.durationInDays;
+
+      const finalPrice = plan.discount
+        ? totalBeforeDiscount * (1 - plan.discount / 100)
+        : totalBeforeDiscount;
+      const startDate = new Date();
+      const endDate = new Date(startDate);
+      endDate.setDate(startDate.getDate() + plan.durationInDays);
+      
+      const membership = await tx.membership.create({
+        data: {
+          userId: user.id,
+          planId,
+          price: finalPrice,
+          status: "ACTIVE",
+          startDate,
+          endDate,
+          membershipPrograms: {
+            create: programs.map((p) => ({
+              programId: p.id,
+              price: p.price * plan.durationInDays,
+            })),
+          },
+        },
+      });
+      const payment = await tx.payment.create({
+        data: {
+          userId: user.id,
+          membershipId: membership.id,
+          amount: finalPrice,
+          status: "SUCCESS",
+          method: paymentMethod || "CASH",
+        },
+      });
+      return { user, membership, payment };
+    });
+
+    res.status(201).json({
+      status: "success",
+      data: result,
     });
   },
 );

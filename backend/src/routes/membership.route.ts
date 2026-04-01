@@ -4,6 +4,7 @@ import { createRateLimiter } from "../utils/rateLimiter";
 import {
   activateMembership,
   createMembership,
+  createUserMembershipWithPayment,
   getAllMemberships,
   getMembershipById,
   getMyMembership,
@@ -25,6 +26,12 @@ membershipRoute.patch("/update-membership/:id", apiLimiter, updateMembership);
 membershipRoute.post("/activate", apiLimiter, activateMembership);
 
 //admin access route
+membershipRoute.post(
+  "/user-membership",
+  apiLimiter,
+  isAuthorizedRoles("admin"),
+  createUserMembershipWithPayment,
+);
 membershipRoute.get(
   "/",
   apiLimiter,
