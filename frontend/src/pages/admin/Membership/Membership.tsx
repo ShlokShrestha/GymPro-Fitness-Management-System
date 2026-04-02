@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import DataTable from "../../../components/resuable/DataTable";
 import API from "../../../api/axios";
-import "./membership.css"
+import "./membership.css";
 const Membership = () => {
   const navigate = useNavigate();
 
@@ -37,15 +37,6 @@ const Membership = () => {
       console.error("Error fetching membership:", error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleDelete = async (id: string) => {
-    try {
-      await API.delete(`/user/${id}`);
-      fetchMembership();
-    } catch (error) {
-      console.error("Delete failed:", error);
     }
   };
 
@@ -115,8 +106,13 @@ const Membership = () => {
           setSearch(value);
           setPage(0);
         }}
-        onEdit={(plan) => navigate(`/admin/membership/edit/${plan.id}`)}
-        onDelete={handleDelete}
+        onEdit={(membership) => {
+          if (membership.status !== "CANCELLED") {
+            navigate(`/admin/membership/edit/${membership.id}`);
+          } else {
+            alert("Cannot edit cancelled membership");
+          }
+        }}
       />
     </>
   );
