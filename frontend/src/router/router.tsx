@@ -24,6 +24,7 @@ import UserMembership from "../pages/user/UserMembership/UserMembership";
 import UserAttendance from "../pages/user/UserAttendance/UserAttendance";
 import EditMembership from "../pages/admin/Membership/EditMembership";
 import UserFitnessGoal from "../pages/user/UserFitnessGoal/UserFitnessGoal";
+import UserProfile from "../pages/user/UserProfile/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -83,6 +84,7 @@ const router = createBrowserRouter([
       { path: "membership", element: <UserMembership /> },
       { path: "attendance", element: <UserAttendance /> },
       { path: "progress", element: <UserFitnessGoal /> },
+      { path: "profile", element: <UserProfile /> },
     ],
   },
 ]);

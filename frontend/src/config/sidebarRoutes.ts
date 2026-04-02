@@ -43,8 +43,13 @@ export const userRoutes = [
     path: "/user/membership",
   },
   {
-    label: "My Progress",
+    label: "Fitness Goal",
     icon: "📊",
     path: "/user/progress",
+  },
+  {
+    label: "Profile",
+    icon: "👤",
+    path: "/user/profile",
   },
 ];

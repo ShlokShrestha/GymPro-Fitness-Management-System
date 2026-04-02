@@ -110,7 +110,7 @@ export const updateProfileImage = catchAsync(
 export const updateProfile = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
     const userId = req.user?.id;
-    const { email, fullName, phoneNumber } = req.body;
+    const { email, fullName, phoneNumber, gender } = req.body;
     const user = await prisma.user.findUnique({
       where: { id: userId },
       include: { profile: true },
@@ -125,6 +125,7 @@ export const updateProfile = catchAsync(
         email,
         fullName,
         phoneNumber,
+        gender,
       },
     });
     res.status(200).json({
