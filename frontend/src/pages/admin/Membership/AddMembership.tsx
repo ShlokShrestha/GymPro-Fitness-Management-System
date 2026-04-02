@@ -150,7 +150,7 @@ const AddMembership = () => {
                 onChange={() => toggleProgram(p.id)}
               />
               <label htmlFor={`program-${p.id}`}>
-                {p.name} (${p.price})
+                {p.name} (Rs{p.price})
               </label>
             </div>
           ))}

@@ -155,7 +155,7 @@ const EditMembership = () => {
                 onChange={() => toggleProgram(p.id)}
               />
               <label>
-                {p.name} (${p.price})
+                {p.name} (Rs{p.price})
               </label>
             </div>
           ))}

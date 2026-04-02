@@ -38,7 +38,7 @@ const UserMembership = () => {
 
         <div className="info">
           <p>
-            <strong>Price:</strong> ${membership.price.toFixed(2)}
+            <strong>Price:</strong> Rs{membership.price.toFixed(2)}
           </p>
           <p>
             <strong>Duration:</strong> {membership.plan?.durationInDays} days
@@ -71,7 +71,7 @@ const UserMembership = () => {
             {membership.membershipPrograms.map((item: any) => (
               <div key={item.id} className="program-item">
                 <span>{item.program.name}</span>
-                <span>${item.program.price}</span>
+                <span>Rs{item.program.price}</span>
               </div>
             ))}
           </div>
