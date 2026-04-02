@@ -25,6 +25,7 @@ import UserAttendance from "../pages/user/UserAttendance/UserAttendance";
 import EditMembership from "../pages/admin/Membership/EditMembership";
 import UserFitnessGoal from "../pages/user/UserFitnessGoal/UserFitnessGoal";
 import UserProfile from "../pages/user/UserProfile/UserProfile";
+import AdminProfile from "../pages/admin/AdminProfile/AdminProfile";
 
 const router = createBrowserRouter([
   {
@@ -67,6 +68,7 @@ const router = createBrowserRouter([
       { path: "programs/edit/:id", element: <EditProgram /> },
       { path: "clients", element: <Clients /> },
       { path: "clients/edit/:id", element: <EditClient /> },
+      { path: "profile", element: <AdminProfile /> },
     ],
   },
   {

@@ -1,4 +1,4 @@
-/* ===== Global Dashboard Layout ===== */
+/* ===== Dashboard Wrapper ===== */
 .admin-dashboard {
   padding: 24px;
   background: #f5f6fa;
@@ -13,31 +13,33 @@
   color: #222;
 }
 
-.stats-grid {
+/* ===== Stats Grid ===== */
+.admin-dashboard .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
   margin-bottom: 24px;
 }
 
-.stat-card {
+.admin-dashboard .stat-card {
   background: #fff;
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-  transition: 0.2s ease;
+  padding: 18px;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s ease;
+  cursor: pointer;
 }
 
-.stat-card:hover {
-  transform: translateY(-3px);
+.admin-dashboard .stat-card:hover {
+  transform: translateY(-5px) scale(1.01);
 }
 
-.stat-title {
+.admin-dashboard .stat-title {
   font-size: 13px;
   color: #777;
 }
 
-.stat-value {
+.admin-dashboard .stat-value {
   font-size: 22px;
   font-weight: bold;
   margin-top: 6px;
@@ -45,46 +47,57 @@
 }
 
 /* ===== Content Grid ===== */
-.content-grid {
+.admin-dashboard .content-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
 
 /* ===== Panels ===== */
-.panel {
+.admin-dashboard .panel {
   background: #fff;
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
 }
 
-.panel h2 {
+.admin-dashboard .panel h2 {
   font-size: 18px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  color: #333;
 }
 
 /* ===== Tables ===== */
-table {
+.admin-dashboard table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
 }
 
-th,
-td {
+.admin-dashboard th,
+.admin-dashboard td {
   text-align: left;
   padding: 10px;
   border-bottom: 1px solid #eee;
 }
 
-th {
+.admin-dashboard th {
   color: #666;
   font-weight: 600;
 }
 
+/* Zebra striping */
+.admin-dashboard tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+/* Hover row */
+.admin-dashboard tbody tr:hover {
+  background: #f1f5f9;
+}
+
 /* ===== Status Badges ===== */
-.badge {
+.admin-dashboard .badge {
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 12px;
@@ -92,33 +105,34 @@ th {
   display: inline-block;
 }
 
-.badge.success {
+.admin-dashboard .badge.success {
   background: #d1fae5;
   color: #047857;
 }
 
-.badge.pending {
+.admin-dashboard .badge.pending {
   background: #fef3c7;
   color: #b45309;
 }
 
-.badge.failed {
+.admin-dashboard .badge.failed {
   background: #fee2e2;
   color: #b91c1c;
 }
 
+/* ===== Responsive ===== */
 @media (max-width: 900px) {
-  .stats-grid {
+  .admin-dashboard .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .content-grid {
+  .admin-dashboard .content-grid {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 500px) {
-  .stats-grid {
+  .admin-dashboard .stats-grid {
     grid-template-columns: 1fr;
   }
 }

@@ -82,13 +82,12 @@ const AddMembership = () => {
       <h2>Add Membership</h2>
 
       <form onSubmit={handleSubmit}>
-        <div style={{ display: "flex", gap: "10px" }}>
+        <div className="user-type-toggle">
           <label>
             <input
               type="radio"
               checked={useExistingUser}
               onChange={() => setUseExistingUser(true)}
-              style={{ marginRight: "5px" }}
             />
             Existing User
           </label>
@@ -98,7 +97,6 @@ const AddMembership = () => {
               type="radio"
               checked={!useExistingUser}
               onChange={() => setUseExistingUser(false)}
-              style={{ marginRight: "5px" }}
             />
             New User
           </label>
