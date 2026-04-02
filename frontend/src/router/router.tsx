@@ -22,6 +22,7 @@ import EditClient from "../pages/admin/Clients/EditClient";
 import AddMembership from "../pages/admin/Membership/AddMembership";
 import UserMembership from "../pages/user/UserMembership/UserMembership";
 import UserAttendance from "../pages/user/UserAttendance/UserAttendance";
+import EditMembership from "../pages/admin/Membership/EditMembership";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,7 @@ const router = createBrowserRouter([
       },
       { path: "membership", element: <Membership /> },
       { path: "membership/add", element: <AddMembership /> },
+      { path: "membership/edit/:id", element: <EditMembership /> },
       { path: "plans", element: <Plans /> },
       { path: "plans/add", element: <AddPlan /> },
       { path: "plans/edit/:id", element: <EditPlan /> },

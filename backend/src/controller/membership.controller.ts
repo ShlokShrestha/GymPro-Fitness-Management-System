@@ -217,7 +217,7 @@ export const activateMembership = catchAsync(
   },
 );
 
-export const createUserMembershipWithPayment = catchAsync(
+export const createClientMembershipWithPayment = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
     const { fullName, email, phoneNumber, planId, programIds, paymentMethod } =
       req.body;
@@ -412,6 +412,237 @@ export const updateMembershipStatus = catchAsync(
     res.status(200).json({
       status: "success",
       data: updatedMembership,
+    });
+  },
+);
+
+export const updateClientMembership = catchAsync(
+  async (req: ExpressRequest, res: Response, next: NextFunction) => {
+    const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    const {
+      planId,
+      programIds,
+      status,
+      startDate,
+      endDate,
+      extraDays,
+      priceOverride,
+      paymentMethod,
+    } = req.body;
+
+    const result = await prisma.$transaction(async (tx) => {
+      const membership = await tx.membership.findUnique({
+        where: { id },
+        include: { membershipPrograms: true },
+      });
+
+      if (!membership) {
+        throw new ErrorHandler("Membership not found", 404);
+      }
+
+      if (membership.status === "CANCELLED") {
+        throw new ErrorHandler("Cannot edit cancelled membership", 400);
+      }
+
+      let updatedData: any = {};
+      let plan = null;
+
+      if (status) {
+        updatedData.status = status;
+      }
+
+      if (startDate) {
+        updatedData.startDate = new Date(startDate);
+      }
+
+      if (endDate) {
+        updatedData.endDate = new Date(endDate);
+      }
+
+      if (extraDays) {
+        const newEndDate = new Date(membership.endDate!);
+        newEndDate.setDate(newEndDate.getDate() + extraDays);
+        updatedData.endDate = newEndDate;
+      }
+
+      if (planId) {
+        plan = await tx.plan.findUnique({ where: { id: planId } });
+        if (!plan) throw new ErrorHandler("Plan not found", 404);
+
+        updatedData.planId = planId;
+
+        const newStart = new Date();
+        const newEnd = new Date();
+        newEnd.setDate(newStart.getDate() + plan.durationInDays);
+
+        updatedData.startDate = newStart;
+        updatedData.endDate = newEnd;
+      } else {
+        plan = await tx.plan.findUnique({
+          where: { id: membership.planId },
+        });
+      }
+
+      let programs = [];
+
+      if (programIds) {
+        if (!programIds.length) {
+          throw new ErrorHandler("At least one program required", 400);
+        }
+
+        programs = await tx.program.findMany({
+          where: { id: { in: programIds } },
+        });
+
+        if (!programs.length) {
+          throw new ErrorHandler("Programs not found", 404);
+        }
+
+        await tx.membershipProgram.deleteMany({
+          where: { membershipId: id },
+        });
+
+        updatedData.membershipPrograms = {
+          create: programs.map((p) => ({
+            programId: p.id,
+            price: p.price * plan!.durationInDays,
+          })),
+        };
+      } else {
+        programs = await tx.program.findMany({
+          where: {
+            id: {
+              in: membership.membershipPrograms.map((mp) => mp.programId),
+            },
+          },
+        });
+      }
+
+      const sumMonthly = programs.reduce((sum, p) => sum + p.price, 0);
+      const totalBeforeDiscount = sumMonthly * plan!.durationInDays;
+
+      const finalPrice = priceOverride
+        ? priceOverride
+        : plan!.discount
+          ? totalBeforeDiscount * (1 - plan!.discount / 100)
+          : totalBeforeDiscount;
+
+      updatedData.price = finalPrice;
+
+      const updatedMembership = await tx.membership.update({
+        where: { id },
+        data: updatedData,
+      });
+
+      const priceDifference = finalPrice - membership.price;
+
+      let payment = null;
+
+      if (priceDifference > 0) {
+        payment = await tx.payment.create({
+          data: {
+            userId: membership.userId,
+            membershipId: membership.id,
+            amount: priceDifference,
+            status: "SUCCESS",
+            method: paymentMethod || "CASH",
+          },
+        });
+      }
+
+      return {
+        membership: updatedMembership,
+        payment,
+      };
+    });
+
+    res.status(200).json({
+      status: "success",
+      data: result,
+    });
+  },
+);
+
+export const renewMembership = catchAsync(
+  async (req: ExpressRequest, res: Response) => {
+    const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+
+    const { planId, programIds, paymentMethod } = req.body;
+
+    const result = await prisma.$transaction(async (tx) => {
+      const membership = await tx.membership.findUnique({
+        where: { id },
+      });
+
+      if (!membership) {
+        throw new ErrorHandler("Membership not found", 404);
+      }
+
+      if (membership.status !== "EXPIRED") {
+        throw new ErrorHandler("Only expired memberships can be renewed", 400);
+      }
+
+      const plan = await tx.plan.findUnique({
+        where: { id: planId },
+      });
+
+      if (!plan) throw new ErrorHandler("Plan not found", 404);
+
+      const programs = await tx.program.findMany({
+        where: { id: { in: programIds } },
+      });
+
+      if (!programs.length) {
+        throw new ErrorHandler("Programs not found", 404);
+      }
+
+      const sumMonthly = programs.reduce((sum, p) => sum + p.price, 0);
+
+      const totalBeforeDiscount = sumMonthly * plan.durationInDays;
+
+      const finalPrice = plan.discount
+        ? totalBeforeDiscount * (1 - plan.discount / 100)
+        : totalBeforeDiscount;
+
+      const startDate = new Date();
+      const endDate = new Date();
+      endDate.setDate(startDate.getDate() + plan.durationInDays);
+
+      const updated = await tx.membership.update({
+        where: { id },
+        data: {
+          planId,
+          price: finalPrice,
+          status: "ACTIVE",
+          startDate,
+          endDate,
+          membershipPrograms: {
+            deleteMany: {},
+            create: programs.map((p) => ({
+              programId: p.id,
+              price: p.price * plan.durationInDays,
+            })),
+          },
+        },
+      });
+
+      const payment = await tx.payment.create({
+        data: {
+          userId: membership.userId,
+          membershipId: membership.id,
+          amount: finalPrice,
+          status: "SUCCESS",
+          method: paymentMethod || "CASH",
+        },
+      });
+
+      return { updated, payment };
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: "Membership renewed successfully",
+      data: result,
     });
   },
 );

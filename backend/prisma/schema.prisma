@@ -21,6 +21,7 @@ enum Role {
 enum MembershipStatus {
   PENDING
   ACTIVE
+  SUSPENDED
   CANCELLED
   EXPIRED
 }

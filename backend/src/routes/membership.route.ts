@@ -4,12 +4,14 @@ import { createRateLimiter } from "../utils/rateLimiter";
 import {
   activateMembership,
   createMembership,
-  createUserMembershipWithPayment,
+  createClientMembershipWithPayment,
   getAllMemberships,
   getMembershipById,
   getMyMembership,
   updateMembership,
   updateMembershipStatus,
+  updateClientMembership,
+  renewMembership,
 } from "../controller/membership.controller";
 
 const membershipRoute = express.Router();
@@ -30,7 +32,7 @@ membershipRoute.post(
   "/user-membership",
   apiLimiter,
   isAuthorizedRoles("admin"),
-  createUserMembershipWithPayment,
+  createClientMembershipWithPayment,
 );
 membershipRoute.get(
   "/",
@@ -49,6 +51,18 @@ membershipRoute.patch(
   apiLimiter,
   isAuthorizedRoles("admin"),
   updateMembershipStatus,
+);
+membershipRoute.patch(
+  "/:id",
+  apiLimiter,
+  isAuthorizedRoles("admin"),
+  updateClientMembership,
+);
+membershipRoute.post(
+  "/:id/renew",
+  apiLimiter,
+  isAuthorizedRoles("admin"),
+  renewMembership,
 );
 
 export default membershipRoute;
