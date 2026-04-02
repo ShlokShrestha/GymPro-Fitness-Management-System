@@ -11,8 +11,12 @@ const AddProgram = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    await API.post("/program", form);
-    navigate("/admin/programs");
+    try {
+      await API.post("/program", form);
+      navigate("/admin/programs");
+    } catch (error: any) {
+      alert(error.response?.data?.message || "Something went wrong");
+    }
   };
 
   return (

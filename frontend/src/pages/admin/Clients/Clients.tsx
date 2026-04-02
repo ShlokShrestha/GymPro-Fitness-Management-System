@@ -44,8 +44,8 @@ const Clients = () => {
     try {
       await API.delete(`/user/${id}`);
       fetchClients();
-    } catch (error) {
-      console.error("Delete failed:", error);
+    } catch (error: any) {
+      alert(error.response?.data?.message || "Something went wrong");
     }
   };
 

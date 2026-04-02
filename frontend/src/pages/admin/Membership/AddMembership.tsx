@@ -57,8 +57,12 @@ const AddMembership = () => {
           paymentMethod: form.paymentMethod,
         };
 
-    await API.post("/membership/user-membership/", payload);
-    navigate("/admin/membership/");
+    try {
+      await API.post("/membership/user-membership/", payload);
+      navigate("/admin/membership/");
+    } catch (error: any) {
+      alert(error.response?.data?.message || "Something went wrong");
+    }
   };
 
   const toggleProgram = (id: string) => {

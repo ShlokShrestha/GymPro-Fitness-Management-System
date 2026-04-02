@@ -26,8 +26,12 @@ const Programs = () => {
   }, []);
 
   const handleDelete = async (id: string) => {
-    await API.delete(`/program/${id}/`);
-    fetchPrograms();
+    try {
+      await API.delete(`/program/${id}/`);
+      fetchPrograms();
+    } catch (error: any) {
+      alert(error.response?.data?.message || "Something went wrong");
+    }
   };
 
   const columns = [

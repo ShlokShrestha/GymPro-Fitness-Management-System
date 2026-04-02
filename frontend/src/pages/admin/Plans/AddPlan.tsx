@@ -13,9 +13,13 @@ const AddPlan = () => {
   });
 
   const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    await API.post("/plan", form);
-    navigate("/admin/plans");
+    try {
+      e.preventDefault();
+      await API.post("/plan", form);
+      navigate("/admin/plans");
+    } catch (error: any) {
+      alert(error.response?.data?.message || "Something went wrong");
+    }
   };
 
   return (

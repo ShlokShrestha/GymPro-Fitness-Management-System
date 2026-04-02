@@ -24,8 +24,12 @@ const EditProgram = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    await API.put(`/program/${id}`, form);
-    navigate("/admin/programs");
+    try {
+      await API.put(`/program/${id}`, form);
+      navigate("/admin/programs");
+    } catch (error: any) {
+      alert(error.response?.data?.message || "Something went wrong");
+    }
   };
 
   return (

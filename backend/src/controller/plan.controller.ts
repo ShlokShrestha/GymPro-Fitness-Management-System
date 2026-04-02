@@ -32,8 +32,14 @@ export const getPlanById = catchAsync(
 export const createPlan = catchAsync(
   async (req, res: Response, next: NextFunction) => {
     const { name, description, discount, durationInDays } = req.body;
-    if (!name || !discount || !durationInDays) {
+    if (!name || discount === undefined || durationInDays === undefined) {
       return next(new ErrorHandler("Missing required fields", 400));
+    }
+    if (discount < 0) {
+      return next(new ErrorHandler("Discount cannot be negative", 400));
+    }
+    if (durationInDays <= 0) {
+      return next(new ErrorHandler("Duration must be greater than 0", 400));
     }
 
     const plan = await prisma.plan.create({
@@ -74,7 +80,17 @@ export const updatePlan = catchAsync(
 export const deletePlan = catchAsync(
   async (req, res: Response, next: NextFunction) => {
     const id: string = req.params["id"] as string;
-
+    const relatedMemberships = await prisma.membership.count({
+      where: { planId: id },
+    });
+    if (relatedMemberships > 0) {
+      return next(
+        new ErrorHandler(
+          "Cannot delete plan. It is already assigned to memberships.",
+          400,
+        ),
+      );
+    }
     const existingPlan = await prisma.plan.findUnique({ where: { id } });
     if (!existingPlan) {
       return next(new ErrorHandler("Plan not found", 404));

@@ -28,8 +28,12 @@ const Plans = () => {
   }, []);
 
   const handleDelete = async (id: string) => {
-    await API.delete(`/plan/${id}/`);
-    fetchPlans();
+    try {
+      await API.delete(`/plan/${id}/`);
+      fetchPlans();
+    } catch (error: any) {
+      alert(error.response?.data?.message || "Something went wrong");
+    }
   };
 
   const columns = [
