@@ -12,6 +12,7 @@ import programRoutes from "./routes/program.route";
 import attendanceRoute from "./routes/attendance.route";
 import fitnessGoalRoute from "./routes/fitnessGoal.route";
 import { loadModel } from "./ml/model";
+import adminDashboardRoute from "./routes/adminDashboard.route";
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ server.use("/api/v1/program", programRoutes);
 server.use("/api/v1/membership", isAuthenitcatedUser, membershipRoute);
 server.use("/api/v1/attendance", isAuthenitcatedUser, attendanceRoute);
 server.use("/api/v1/fitness-Goal", isAuthenitcatedUser, fitnessGoalRoute);
+server.use("/api/v1/admin/dashboard", isAuthenitcatedUser, adminDashboardRoute);
 
 server.use(globalErrorHandler);
 
