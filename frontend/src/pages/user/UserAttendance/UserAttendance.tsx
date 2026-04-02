@@ -26,15 +26,25 @@ const UserAttendance = () => {
   };
 
   const checkIn = async () => {
-    await API.post("/attendance/check-in/");
-    fetchAttendance();
+    try {
+      await API.post("/attendance/check-in/");
+      fetchAttendance();
+    } catch (error: any) {
+      alert(error.response?.data?.message || "Something went wrong");
+    }
   };
 
   const checkOut = async () => {
-    await API.post("/attendance/check-out");
-    fetchAttendance();
+    try {
+      await API.post("/attendance/check-out");
+      fetchAttendance();
+    } catch (error: any) {
+      alert(error.response?.data?.message || "Something went wrong");
+    }
   };
-
+  if (loading) {
+    return <div>Loading User Attendance...</div>;
+  }
   return (
     <div className="attendance-container">
       <h2>Gym Attendance</h2>

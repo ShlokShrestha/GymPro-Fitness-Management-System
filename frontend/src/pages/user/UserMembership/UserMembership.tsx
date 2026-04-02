@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import API from "../../../api/axios";
-import { useNavigate } from "react-router";
 import "./userMembership.css";
 
 const UserMembership = () => {
-  const navigate = useNavigate();
-
   const [membership, setMembership] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
@@ -23,10 +20,6 @@ const UserMembership = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handlePayment = () => {
-    navigate(`/membership/pay/${membership.id}`);
   };
 
   const isUnpaid =
@@ -84,15 +77,7 @@ const UserMembership = () => {
           </div>
         )}
 
-        {/* 💳 Payment Section */}
-        {isUnpaid && (
-          <button className="pay-btn" onClick={handlePayment}>
-            Pay Now
-          </button>
-        )}
-
-        {/* ✅ If paid */}
-        {membership.payments?.length > 0 && (
+        {!isUnpaid && membership.payments?.length > 0 && (
           <p className="paid-text">✅ Payment completed</p>
         )}
       </div>
