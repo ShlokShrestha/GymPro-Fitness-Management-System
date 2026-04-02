@@ -5,10 +5,10 @@ import "./auth.css";
 
 export default function Signup() {
   const [form, setForm] = useState({
-    name: "",
+    fullName: "",
     email: "",
     password: "",
-    role: "user",
+    role: "client",
     phoneNumber: "",
   });
   const navigate = useNavigate();
@@ -30,9 +30,9 @@ export default function Signup() {
         <input
           type="text"
           placeholder="Full Name"
-          value={form.name}
+          value={form.fullName}
           required
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
+          onChange={(e) => setForm({ ...form, fullName: e.target.value })}
         />
         <input
           type="email"
