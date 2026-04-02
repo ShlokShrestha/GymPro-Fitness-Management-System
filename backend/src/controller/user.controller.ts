@@ -11,21 +11,61 @@ import { paginationFilterHelper } from "../helpers/paginationFilterHelper";
 export const userProfile = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
     const userId = req.user?.id;
+
+    if (!userId) {
+      return next(new ErrorHandler("Unauthorized", 401));
+    }
+
     const userProfile = await prisma.user.findUnique({
       where: { id: userId },
+
       select: {
         id: true,
         fullName: true,
         email: true,
         role: true,
-        profile: true,
         phoneNumber: true,
+        gender: true,
+        joinedAt: true,
+        createdAt: true,
+        updatedAt: true,
+
+        profile: true,
+
+        memberships: {
+          orderBy: { startDate: "desc" },
+          include: {
+            plan: true,
+            membershipPrograms: {
+              include: {
+                program: true,
+              },
+            },
+            payments: {
+              orderBy: { createdAt: "desc" },
+              take: 5,
+            },
+          },
+        },
+
+        fitnessGoals: {
+          orderBy: { createdAt: "desc" },
+        },
+
+        gymAttendances: {
+          orderBy: { checkIn: "desc" },
+          take: 10,
+        },
       },
     });
     if (!userProfile) {
       return next(new ErrorHandler("User not found", 404));
     }
-    res.status(200).json({ status: "success", data: userProfile });
+
+    res.status(200).json({
+      status: "success",
+      data: userProfile,
+    });
   },
 );
 //user update profile image
