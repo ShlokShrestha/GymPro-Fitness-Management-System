@@ -1,0 +1,156 @@
+.fitness-container {
+  margin: auto;
+  padding: 20px;
+  font-family: Arial;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.bmi-card {
+  background: #f3f4f6;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.bmi-value {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.form-card {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+.field label {
+  font-size: 13px;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.field input,
+.field select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.field-group {
+  display: flex;
+  gap: 10px;
+}
+
+.field-group .field {
+  flex: 1;
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #1d4ed8;
+}
+
+.layout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.form-card {
+  flex: 1;
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.goal-card {
+  flex: 1;
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.goal-card p {
+  padding: 5px 0px;
+}
+
+.workout-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-top: 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+  max-width: 600px;
+}
+
+.workout-card .btn{
+  margin-bottom: 10px;
+}
+
+.workout-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+  color: #1f2937;
+}
+
+.workout-card h3 {
+  font-size: 1.1rem;
+  margin-top: 16px;
+  margin-bottom: 10px;
+  color: #374151;
+}
+
+.workout-card p {
+  font-size: 1rem;
+  color: #4b5563;
+  margin-bottom: 10px;
+  text-transform: capitalize;
+}
+
+.workout-card p b {
+  color: #111827;
+}
+
+.workout-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.workout-card li {
+  padding: 5px 6px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  color: #374151;
+  transition: all 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+}

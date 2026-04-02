@@ -23,6 +23,7 @@ import AddMembership from "../pages/admin/Membership/AddMembership";
 import UserMembership from "../pages/user/UserMembership/UserMembership";
 import UserAttendance from "../pages/user/UserAttendance/UserAttendance";
 import EditMembership from "../pages/admin/Membership/EditMembership";
+import UserFitnessGoal from "../pages/user/UserFitnessGoal/UserFitnessGoal";
 
 const router = createBrowserRouter([
   {
@@ -81,6 +82,7 @@ const router = createBrowserRouter([
       },
       { path: "membership", element: <UserMembership /> },
       { path: "attendance", element: <UserAttendance /> },
+      { path: "progress", element: <UserFitnessGoal /> },
     ],
   },
 ]);
