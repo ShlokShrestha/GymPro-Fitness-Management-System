@@ -357,10 +357,24 @@ export const getAllMemberships = catchAsync(async (req, res: Response) => {
 
   const filterOptions = search
     ? {
-        title: {
-          contains: search as string,
-          mode: "insensitive",
-        },
+        OR: [
+          {
+            user: {
+              fullName: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+          },
+          {
+            user: {
+              email: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+          },
+        ],
       }
     : {};
   const includeOptions = {
