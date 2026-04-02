@@ -1,28 +1,33 @@
 export const adminRoutes = [
   {
     label: "Dashboard",
-    icon: "🏠",
+    icon: "📊",
     path: "/admin",
   },
   {
     label: "Membership Plans",
-    icon: "📋",
+    icon: "📑",
     path: "/admin/membership",
   },
   {
     label: "Plans",
-    icon: "🏆",
+    icon: "🏷️",
     path: "/admin/plans",
   },
   {
     label: "Programs",
-    icon: "🏆",
+    icon: "🏋️‍♂️",
     path: "/admin/programs",
   },
   {
     label: "Clients",
-    icon: "👤",
+    icon: "👥",
     path: "/admin/clients",
+  },
+  {
+    label: "Profile",
+    icon: "👤",
+    path: "/admin/profile",
   },
 ];
 
@@ -34,7 +39,7 @@ export const userRoutes = [
   },
   {
     label: "Attendance",
-    icon: "🏋️",
+    icon: "📅",
     path: "/user/attendance",
   },
   {
@@ -44,7 +49,7 @@ export const userRoutes = [
   },
   {
     label: "Fitness Goal",
-    icon: "📊",
+    icon: "📈",
     path: "/user/progress",
   },
   {
