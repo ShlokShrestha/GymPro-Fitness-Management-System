@@ -211,6 +211,7 @@ export const getSingleUser = catchAsync(
         fullName: true,
         email: true,
         role: true,
+        phoneNumber: true,
       },
     });
     if (!getSingleUser) {

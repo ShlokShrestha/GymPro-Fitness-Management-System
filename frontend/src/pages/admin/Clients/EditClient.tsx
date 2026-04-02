@@ -5,45 +5,84 @@ import API from "../../../api/axios";
 const EditClient = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [form, setForm] = useState<any>({
+
+  const [form, setForm] = useState({
     fullName: "",
     email: "",
     phoneNumber: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
+  // Fetch client
   useEffect(() => {
     const fetchClient = async () => {
       try {
-        const res = await API.get(`user/${id}`);
-        setForm(res.data.data);
+        setLoading(true);
+        const res = await API.get(`/user/${id}`);
+        const user = res.data.data;
+
+        setForm({
+          fullName: user.fullName || "",
+          email: user.email || "",
+          phoneNumber: user.phoneNumber || "",
+        });
       } catch (error) {
         console.error("Fetch client failed", error);
+      } finally {
+        setLoading(false);
       }
     };
-    fetchClient();
+
+    if (id) fetchClient();
   }, [id]);
 
+  const handleChange = (e: any) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    await API.put(`/user/${id}`, form);
-    navigate("/admin/user");
+
+    try {
+      await API.put(`/user/${id}`, form);
+      navigate("/admin/user");
+    } catch (error) {
+      console.error("Update failed", error);
+    }
   };
+
+  if (loading) return <p>Loading...</p>;
 
   return (
     <div className="form-container">
-      <h2>Edit client</h2>
+      <h2>Edit Client</h2>
+
       <form onSubmit={handleSubmit}>
         <input
-          placeholder="client name"
-          value={form.name}
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
+          name="fullName"
+          placeholder="Client Name"
+          value={form.fullName}
+          onChange={handleChange}
         />
+
         <input
-          type="number"
-          placeholder="Price"
-          value={form.price}
-          onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
+          name="email"
+          type="email"
+          placeholder="Email"
+          value={form.email}
+          onChange={handleChange}
         />
+
+        <input
+          name="phoneNumber"
+          placeholder="Phone Number"
+          value={form.phoneNumber}
+          onChange={handleChange}
+        />
+
         <button type="submit">Update</button>
       </form>
     </div>
