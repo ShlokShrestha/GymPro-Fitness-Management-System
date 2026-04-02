@@ -39,6 +39,19 @@ enum PaymentMethod {
   ESEWA
 }
 
+enum FitnessGoal {
+  WEIGHT_LOSS
+  WEIGHT_GAIN
+  MAINTENANCE
+  MUSCLE_BUILDING
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
 model user {
   id                  String          @id @default(uuid())
   fullName            String
@@ -48,6 +61,8 @@ model user {
   phoneNumber         String
   resetPasswordToken  String?
   resetPasswordExpire DateTime?
+  dateOfBirth         DateTime?
+  gender              Gender?
   createdAt           DateTime        @default(now())
   updatedAt           DateTime        @updatedAt
   profile             profile?
@@ -55,6 +70,7 @@ model user {
   memberships         membership[]
   gymAttendances      gymAttendance[]
   payments            payment[]
+  fitnessGoals        fitnessGoal[]
 }
 
 model profile {
@@ -125,4 +141,18 @@ model gymAttendance {
   membershipId String
   checkIn      DateTime   @default(now())
   checkOut     DateTime?
+}
+
+model fitnessGoal {
+  id           String      @id @default(uuid())
+  user         user        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  goalType     FitnessGoal
+  startWeight  Float?
+  targetWeight Float?
+  height       Float?
+  bmi          Float?
+  age          Int?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 }

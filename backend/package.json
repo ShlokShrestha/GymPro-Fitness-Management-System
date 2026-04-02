@@ -21,6 +21,8 @@
     "express-rate-limit": "^8.2.1",
     "imagekit": "^6.0.0",
     "jsonwebtoken": "^9.0.3",
+    "ml-cart": "^2.1.1",
+    "ml-random-forest": "^2.1.0",
     "multer": "^2.0.2",
     "node-cron": "^4.2.1",
     "nodemailer": "^8.0.0",

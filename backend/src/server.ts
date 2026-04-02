@@ -10,6 +10,8 @@ import planRoutes from "./routes/plan.route";
 import membershipRoute from "./routes/membership.route";
 import programRoutes from "./routes/program.route";
 import attendanceRoute from "./routes/attendance.route";
+import fitnessGoalRoute from "./routes/fitnessGoal.route";
+import { loadModel } from "./ml/model";
 
 dotenv.config();
 
@@ -23,6 +25,7 @@ const globalLimiter = createRateLimiter({
   limit: 1000,
 });
 server.use(globalLimiter);
+loadModel();
 
 server.use("/api/v1/auth", authRoutes);
 server.use("/api/v1/user", isAuthenitcatedUser, userRoutes);
@@ -30,6 +33,7 @@ server.use("/api/v1/plan", planRoutes);
 server.use("/api/v1/program", programRoutes);
 server.use("/api/v1/membership", isAuthenitcatedUser, membershipRoute);
 server.use("/api/v1/attendance", isAuthenitcatedUser, attendanceRoute);
+server.use("/api/v1/fitness-Goal", isAuthenitcatedUser, fitnessGoalRoute);
 
 server.use(globalErrorHandler);
 
