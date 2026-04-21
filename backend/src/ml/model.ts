@@ -1,37 +1,31 @@
-import { RandomForestClassifier } from "ml-random-forest";
 import fs from "fs";
 import { dataset } from "./dataset";
-
-export const model: any = new RandomForestClassifier({
-  nEstimators: 120,
-});
+import { RandomForest } from "./randomForest";
 
 const MODEL_PATH = "./rf-model.json";
 
-export function trainModel(dataset: any[]) {
-  const X = dataset.map((d) => d.x);
-  const y = dataset.map((d) => d.y);
+const model = new RandomForest(20, 6);
 
-  model.train(X, y);
+export function trainModel() {
+  model.train(dataset);
 
-  fs.writeFileSync(MODEL_PATH, JSON.stringify(model.toJSON()));
+  fs.writeFileSync(MODEL_PATH, JSON.stringify(model));
+  console.log("✅ Model trained & saved");
 }
 
 export function loadModel() {
-  if (!fs.existsSync("rf-model.json")) {
+  if (!fs.existsSync(MODEL_PATH)) {
     console.log("⚠️ No saved model found. Training new model...");
-
-    const X = dataset.map((d) => d.x);
-    const y = dataset.map((d) => d.y);
-
-    model.train(X, y);
-
-    fs.writeFileSync("rf-model.json", JSON.stringify({ trained: true }));
-
+    trainModel();
     return;
   }
-  const X = dataset.map((d) => d.x);
-  const y = dataset.map((d) => d.y);
 
-  model.train(X, y);
+  const raw = JSON.parse(fs.readFileSync(MODEL_PATH, "utf-8"));
+  Object.assign(model, raw);
+
+  console.log("✅ Model loaded");
+}
+
+export function predict(input: number[]) {
+  return model.predict(input);
 }

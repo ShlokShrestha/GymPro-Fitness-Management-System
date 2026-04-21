@@ -1,4 +1,4 @@
 import { trainModel } from "./ml/model";
-import { dataset } from "./ml/dataset";
 
-trainModel(dataset);
+trainModel();
+//npx ts-node src/train.ts
