@@ -33,7 +33,10 @@ const AddUserMembership = () => {
     };
 
     try {
-      await API.post("/membership/", payload);
+      const result = await API.post("/membership/", payload);
+      if (result.status === 201) {
+        window.location.reload();
+      }
     } catch (error: any) {
       alert(error.response?.data?.message || "Something went wrong");
     }
