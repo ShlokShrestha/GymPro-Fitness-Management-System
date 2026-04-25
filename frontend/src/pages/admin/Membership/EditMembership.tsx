@@ -75,6 +75,8 @@ const EditMembership = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    if (form.status === "PENDING")
+      return alert("Please change status for membership updated");
 
     try {
       if (mode === "RENEW") {
@@ -127,6 +129,7 @@ const EditMembership = () => {
           onChange={(e) => setForm({ ...form, status: e.target.value })}
           disabled={mode === "RENEW"}
         >
+          <option value="PENDING">Pending</option>
           <option value="ACTIVE">Active</option>
           <option value="SUSPENDED">Suspended</option>
           <option value="CANCELLED">Cancelled</option>

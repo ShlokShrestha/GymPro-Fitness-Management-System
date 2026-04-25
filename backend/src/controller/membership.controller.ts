@@ -43,6 +43,9 @@ export const createMembership = catchAsync(
     const finalPrice = plan.discount
       ? totalBeforeDiscount * (1 - plan.discount / 100)
       : totalBeforeDiscount;
+    const startDate = new Date();
+    const endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + plan.durationInDays);
 
     // Create membership with membershipProgram records
     const membership = await prisma.membership.create({
@@ -51,6 +54,8 @@ export const createMembership = catchAsync(
         planId,
         price: finalPrice,
         status: "PENDING",
+        startDate,
+        endDate,
         membershipPrograms: {
           create: programs.map((p) => ({
             programId: p.id,
@@ -447,7 +452,7 @@ export const updateClientMembership = catchAsync(
     const result = await prisma.$transaction(async (tx) => {
       const membership = await tx.membership.findUnique({
         where: { id },
-        include: { membershipPrograms: true },
+        include: { membershipPrograms: true, payments: true },
       });
 
       if (!membership) {
@@ -558,6 +563,16 @@ export const updateClientMembership = catchAsync(
             userId: membership.userId,
             membershipId: membership.id,
             amount: priceDifference,
+            status: "SUCCESS",
+            method: paymentMethod || "CASH",
+          },
+        });
+      } else if (membership?.payments.length === 0) {
+        payment = await tx.payment.create({
+          data: {
+            userId: membership.userId,
+            membershipId: membership.id,
+            amount: membership.price,
             status: "SUCCESS",
             method: paymentMethod || "CASH",
           },
